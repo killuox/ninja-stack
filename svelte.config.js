@@ -16,6 +16,9 @@ const config = {
 			"@components": "./src/lib/components",
 			"@lib": "./src/lib",
 			"@configs": "./src/configs",
+			"@stores": "./src/stores",
+			"@utils": "./src/utils",
+			"@server": "./src/server",
 		}
 	}
 };

@@ -12,6 +12,7 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@lucia-auth/adapter-drizzle": "^1.0.7",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -23,6 +24,7 @@
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0-next.4",
+		"lucia": "^3.2.0",
 		"postcss": "^8.4.32",
 		"postcss-load-config": "^5.0.2",
 		"prettier": "^3.1.1",
@@ -40,8 +42,10 @@
 		"@neondatabase/serverless": "^0.9.1",
 		"bits-ui": "^0.21.7",
 		"clsx": "^2.1.1",
+		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.30.10",
 		"lucide-svelte": "^0.377.0",
+		"pg": "^8.11.5",
 		"tailwind-merge": "^2.3.0",
 		"tailwind-variants": "^0.2.1"
 	}

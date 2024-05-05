@@ -20,6 +20,7 @@ const config = {
 			"@utils": "./src/lib/utils",
 			"@server": "./src/lib/server",
 			"@schemas": "./src/lib/schemas",
+			"@models": "./src/lib/server/models",
 		}
 	}
 };

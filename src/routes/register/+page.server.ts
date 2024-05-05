@@ -1,4 +1,3 @@
-// routes/signup/+page.server.ts
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2'
 import type { Actions, PageServerLoad } from './$types';
@@ -6,8 +5,8 @@ import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '@schemas/user';
 import { zod } from "sveltekit-superforms/adapters";
-import user from '@lib/server/models/user/user.service';
-import session from '@lib/server/models/session/session.service';
+import user from '@models/user/user.service';
+import session from '@models/session/session.service';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;

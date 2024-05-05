@@ -1,12 +1,13 @@
-<script lang="ts">
-	import { enhance } from "$app/forms";
+<script>
+	let { data } = $props();
 </script>
 
-<h1>Sign up</h1>
-<form method="post" use:enhance>
-	<label for="username">Username</label>
-	<input name="username" id="username" /><br />
-	<label for="password">Password</label>
-	<input type="password" name="password" id="password" /><br />
-    <button>Continue</button>
-</form>
+<div class="flex items-center space-x-4">
+	<a href="/register">Register</a>
+
+    {#if data.session}
+        <a class="ml-10" href="/app">App</a>
+    {:else}
+        <a class="ml-10" href="/login">Login</a>
+    {/if}
+</div>

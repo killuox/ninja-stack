@@ -1,10 +1,5 @@
-import { pgTable, timestamp, text } from 'drizzle-orm/pg-core';
-
-export const userTable = pgTable('user', {
-	id: text('id').primaryKey(),
-    username: text('username').notNull(),
-    password_hash: text('password_hash').notNull()
-});
+import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { userTable } from '../user/user.table';
 
 export const sessionTable = pgTable('session', {
 	id: text('id').primaryKey(),

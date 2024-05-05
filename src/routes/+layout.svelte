@@ -1,5 +1,8 @@
-<script>
+<script lang="ts">
 	import '../app.pcss';
+	import { Toaster } from '$lib/components/ui/sonner';
+	let { children } = $props();
 </script>
 
-<slot></slot>
+<Toaster />
+{@render children()}

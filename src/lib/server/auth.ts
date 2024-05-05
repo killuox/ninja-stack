@@ -3,7 +3,7 @@ import { Lucia } from 'lucia';
 import { dev } from '$app/environment';
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
 import db from '$lib/server/db/db';
-import { sessionTable, userTable } from '$lib/server/db/schema';
+import { sessionTable, userTable } from '@lib/server/db/tables';
 
 const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable);
 
@@ -17,7 +17,7 @@ export const lucia = new Lucia(adapter, {
 	getUserAttributes: (attributes) => {
 		return {
 			// attributes has the type of DatabaseUserAttributes
-			username: attributes.username
+			email: attributes.email
 		};
 	}
 });
@@ -30,5 +30,5 @@ declare module 'lucia' {
 }
 
 interface DatabaseUserAttributes {
-	username: string;
+	email: string;
 }

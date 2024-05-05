@@ -16,9 +16,10 @@ const config = {
 			"@components": "./src/lib/components",
 			"@lib": "./src/lib",
 			"@configs": "./src/configs",
-			"@stores": "./src/stores",
-			"@utils": "./src/utils",
-			"@server": "./src/server",
+			"@stores": "./src/lib/stores",
+			"@utils": "./src/lib/utils",
+			"@server": "./src/lib/server",
+			"@schemas": "./src/lib/schemas",
 		}
 	}
 };

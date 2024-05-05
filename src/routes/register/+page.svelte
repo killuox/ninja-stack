@@ -16,7 +16,6 @@
 		validators: zodClient(registerUserSchema),
 		resetForm: true,
 		onResult: ({ result }) => {
-			console.log(result);
 			switch (result.type) {
 				case 'success':
 					toast.success('Account created successfully');

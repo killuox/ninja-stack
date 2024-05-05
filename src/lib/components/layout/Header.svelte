@@ -72,7 +72,11 @@
 				<DropdownMenu.Item>Settings</DropdownMenu.Item>
 				<DropdownMenu.Item>Support</DropdownMenu.Item>
 				<DropdownMenu.Separator />
-				<DropdownMenu.Item>Logout</DropdownMenu.Item>
+				<DropdownMenu.Item>
+					<form action="/logout" method="POST">
+						<button type="submit">Logout</button>
+					</form>
+				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	</div>

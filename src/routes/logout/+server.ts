@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 import { lucia } from '$lib/server/auth';
 import { error, redirect } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async (event) => {
+export const POST: RequestHandler = async (event) => {
 	if (!event.locals.session) {
 		return error(401, {
 			message: 'You are not logged in'

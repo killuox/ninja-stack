@@ -1,22 +1,20 @@
 // routes/signup/+page.server.ts
-import { lucia } from '$lib/server/auth';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2'
-import db from '$lib/server/db/db';
-import { userTable } from '@lib/server/db/tables';
 import type { Actions, PageServerLoad } from './$types';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '@schemas/user';
 import { zod } from "sveltekit-superforms/adapters";
-import { eq } from 'drizzle-orm';
+import user from '@lib/server/models/user/user.service';
+import session from '@lib/server/models/session/session.service';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;
 	
-	// if (session !== null) {
-	// 	redirect(302, '/app');
-	// }
+	if (session !== null) {
+		redirect(302, '/app');
+	}
 
 	return {
 		session: event.locals.session,
@@ -47,9 +45,7 @@ export const actions: Actions = {
 		});
 
 		// check if email is already used
-		const existingUser = await db.query.userTable.findFirst({
-			where: eq(userTable.email, form.data.email.toLowerCase())
-		});
+		const existingUser = await user.findByEmail(form.data.email);
 
 		if (existingUser) {
 			return fail(400, {
@@ -57,7 +53,7 @@ export const actions: Actions = {
 			});
 		}
 
-        await db.insert(userTable).values({
+		await user.create({
 			id: userId,
 			first_name: form.data.first_name,
 			last_name: form.data.last_name,
@@ -65,12 +61,7 @@ export const actions: Actions = {
 			password_hash: passwordHash
 		});
 
-		const session = await lucia.createSession(userId, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
-		});
+		await session.create(event, userId);
 
 		redirect(302, '/');
 	}

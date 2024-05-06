@@ -5,9 +5,18 @@ import type { PageServerLoad, Actions } from './$types';
 import { userTable } from '@lib/server/db/tables';
 import db from '$lib/server/db/db';
 import { eq } from 'drizzle-orm';
+import { loginUserSchema } from '@lib/schemas/user';
+import { superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async (event) => {
-	if (event.locals.user) redirect(302, '/app');
+	const session = event.locals.session;
+	if (session) redirect(302, '/app');
+
+	return {
+		session: event.locals.session,
+		form: await superValidate(zod(loginUserSchema))
+	};
 };
 
 export const actions: Actions = {

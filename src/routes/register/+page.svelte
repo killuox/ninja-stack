@@ -3,12 +3,12 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
-
 	import AuthLayout from '@components/layout/AuthLayout.svelte';
-	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
+	import { type SuperValidated, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { registerUserSchema, type RegisterUserSchema } from '@schemas/user';
 	import { toast } from 'svelte-sonner';
+
 	let { data } = $props();
 	const { form: formProps } = data;
 
@@ -37,9 +37,9 @@
 </script>
 
 <AuthLayout>
-	<Card.Root class="mx-auto max-w-sm">
+	<Card.Root>
 		<Card.Header>
-			<Card.Title class="text-xl">Sign Up</Card.Title>
+			<Card.Title class="text-xl">Register</Card.Title>
 			<Card.Description>Enter your information to create an account</Card.Description>
 		</Card.Header>
 		<Card.Content>

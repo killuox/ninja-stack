@@ -1,19 +1,22 @@
 import { z } from 'zod';
-export const userSchema  = z.object({
-    id: z.string(),
-    first_name: z.string(),
-    last_name: z.string(),
-    email: z.string(),
-    password_hash: z.string()
+export const userSchema = z.object({
+	id: z.string(),
+	firstName: z.string(),
+	lastName: z.string(),
+	email: z.string(),
+	passwordHash: z.string()
 });
 export type UserSchema = z.infer<typeof userSchema>;
 
+export const updateUserSchema = userSchema.omit({ id: true, passwordHash: true }).partial();
+export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
+
 export const registerUserSchema = z.object({
-	first_name: z
+	firstName: z
 		.string()
 		.min(2, 'First name must be at least 2 characters')
 		.max(64, 'First name must be 64 characters or less'),
-	last_name: z
+	lastName: z
 		.string()
 		.min(2, 'Last name must be at least 2 characters')
 		.max(64, 'Last name must be 64 characters or less'),
@@ -31,15 +34,14 @@ export const registerUserSchema = z.object({
 export type RegisterUserSchema = z.infer<typeof registerUserSchema>;
 
 export const loginUserSchema = z.object({
-    email: z.string().email('Invalid email address'),
-    password: z.string()
+	email: z.string().email('Invalid email address'),
+	password: z.string()
 });
 
 export type LoginUserSchema = z.infer<typeof loginUserSchema>;
 
 export const forgotPasswordSchema = z.object({
-    email: z.string().email('Invalid email address')
+	email: z.string().email('Invalid email address')
 });
 
 export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
-

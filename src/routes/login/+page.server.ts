@@ -35,7 +35,7 @@ export const actions: Actions = {
 			});
 		}
 
-		const validPassword = await verify(existingUser.password_hash, form.data.password, {
+		const validPassword = await verify(existingUser.passwordHash, form.data.password, {
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,

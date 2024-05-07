@@ -7,6 +7,7 @@ import { registerUserSchema } from '@schemas/user';
 import { zod } from "sveltekit-superforms/adapters";
 import user from '@models/user/user.service';
 import session from '@models/session/session.service';
+import workspaceService from '@lib/server/models/workspace/workspace.service';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;
@@ -34,7 +35,6 @@ export const actions: Actions = {
 			return setError(form, 'passwordConfirm', 'Passwords do not match');
 		}
 
-		const userId = generateIdFromEntropySize(10); // 16 characters long
 		const passwordHash = await hash(form.data.password, {
 			// recommended minimum parameters
 			memoryCost: 19456,
@@ -52,12 +52,19 @@ export const actions: Actions = {
 			});
 		}
 
+		const userId = generateIdFromEntropySize(10);
 		await user.create({
 			id: userId,
-			first_name: form.data.first_name,
-			last_name: form.data.last_name,
+			firstName: form.data.firstName,
+			lastName: form.data.lastName,
 			email: form.data.email,
-			password_hash: passwordHash
+			passwordHash: passwordHash
+		});
+
+		await workspaceService.create({
+			id: generateIdFromEntropySize(10),
+			userId: userId,
+			name: 'Personal'
 		});
 
 		await session.create(event, userId);

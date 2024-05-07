@@ -1,11 +1,12 @@
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { userTable } from '../user/user.table';
 
-export const userTable = pgTable('user', {
+export const workspaceTable = pgTable('workspace', {
 	id: text('id').notNull().primaryKey(),
-	firstName: text('first_name').notNull(),
-	lastName: text('last_name').notNull(),
-	email: text('email').notNull(),
-	passwordHash: text('password_hash').notNull(),
+	name: text('name').notNull(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => userTable.id),
 	createdAt: timestamp('created_at', {
 		withTimezone: true,
 		mode: 'date'

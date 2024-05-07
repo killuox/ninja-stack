@@ -46,17 +46,17 @@
 			<form method="POST" use:enhance>
 				<div class="grid gap-4">
 					<div class="grid grid-cols-2 gap-4">
-						<Form.Field {form} name="first_name">
+						<Form.Field {form} name="firstName">
 							<Form.Control let:attrs>
 								<Form.Label>First name</Form.Label>
-								<Input type="text" bind:value={$formData.first_name} {...attrs} />
+								<Input type="text" bind:value={$formData.firstName} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
-						<Form.Field {form} name="last_name">
+						<Form.Field {form} name="lastName">
 							<Form.Control let:attrs>
 								<Form.Label>Last name</Form.Label>
-								<Input type="text" bind:value={$formData.last_name} {...attrs} />
+								<Input type="text" bind:value={$formData.lastName} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>

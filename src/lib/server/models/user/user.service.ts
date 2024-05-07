@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
-import db from '$lib/server/db/db';
+import db from '@server/db/db';
 import { userTable } from './user.table';
-import { type CreateUserSchema, type UpdateUserSchema } from '@lib/schemas/user';
-import { generateDatabaseId } from '@lib/server/db/helper';
+import { type CreateUserSchema, type UpdateUserSchema } from '@schemas/user';
+import { generateDatabaseId } from '@server/helpers/db';
 
 const findOne = async (id: string) => {
 	return await db.query.userTable.findFirst({

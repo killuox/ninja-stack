@@ -1,4 +1,3 @@
-import { hash } from '@node-rs/argon2'
 import type { Actions, PageServerLoad } from './$types';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, redirect } from '@sveltejs/kit';
@@ -6,7 +5,8 @@ import { registerUserSchema } from '@schemas/user';
 import { zod } from "sveltekit-superforms/adapters";
 import userService from '@models/user/user.service';
 import sessionService from '@models/session/session.service';
-import workspaceService from '@lib/server/models/workspace/workspace.service';
+import workspaceService from '@server/models/workspace/workspace.service';
+import { generatePasswordHash } from '@server/helpers/auth';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;
@@ -34,13 +34,7 @@ export const actions: Actions = {
 			return setError(form, 'passwordConfirm', 'Passwords do not match');
 		}
 
-		const passwordHash = await hash(form.data.password, {
-			// recommended minimum parameters
-			memoryCost: 19456,
-			timeCost: 2,
-			outputLen: 32,
-			parallelism: 1
-		});
+		const passwordHash = await generatePasswordHash(form.data.password);
 
 		// check if email is already used
 		const existingUser = await userService.findByEmail(form.data.email);

@@ -1,7 +1,8 @@
 import { eq } from 'drizzle-orm';
 import db from '$lib/server/db/db';
 import { workspaceTable } from './workspace.table';
-import { type WorkspaceSchema } from '@lib/schemas/workspace';
+import { type CreateWorkspaceSchema } from '@lib/schemas/workspace';
+import { generateDatabaseId } from '@lib/server/db/helper';
 
 const findOne = async (id: string) => {
 	return await db.query.workspaceTable.findFirst({
@@ -13,13 +14,16 @@ const findMany = async () => {
 	return await db.query.workspaceTable.findMany();
 };
 
-const create = async (data: WorkspaceSchema) => {
-	return await db.insert(workspaceTable).values({
+const create = async (data: CreateWorkspaceSchema) => {
+	const workspaceId = generateDatabaseId();
+	await db.insert(workspaceTable).values({
+		id: workspaceId,
 		...data
 	});
+	return workspaceId;
 };
 
-const update = async (id: string, data: WorkspaceSchema) => {
+const update = async (id: string, data: CreateWorkspaceSchema) => {
 	return await db
 		.update(workspaceTable)
 		.set({
@@ -34,10 +38,10 @@ const remove = async (id: string) => {
 };
 
 const findByUser = async (userId: string) => {
-    return await db.query.workspaceTable.findMany({
-        where: eq(workspaceTable.userId, userId)
-    });
-}
+	return await db.query.workspaceTable.findMany({
+		where: eq(workspaceTable.userId, userId)
+	});
+};
 
 export default {
 	findOne,

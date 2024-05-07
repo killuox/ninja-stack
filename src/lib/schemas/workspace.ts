@@ -8,5 +8,8 @@ export const workspaceSchema = z.object({
 
 export type WorkspaceSchema = z.infer<typeof workspaceSchema>;
 
+export const createWorkspaceSchema = workspaceSchema.omit({ id: true });
+export type CreateWorkspaceSchema = z.infer<typeof createWorkspaceSchema>;
+
 export const updateWorkspaceSchema = workspaceSchema.omit({ id: true }).partial();
 export type UpdateWorkspaceSchema = z.infer<typeof updateWorkspaceSchema>;

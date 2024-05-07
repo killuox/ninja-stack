@@ -1,12 +1,11 @@
-import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2'
 import type { Actions, PageServerLoad } from './$types';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '@schemas/user';
 import { zod } from "sveltekit-superforms/adapters";
-import user from '@models/user/user.service';
-import session from '@models/session/session.service';
+import userService from '@models/user/user.service';
+import sessionService from '@models/session/session.service';
 import workspaceService from '@lib/server/models/workspace/workspace.service';
 
 export const load: PageServerLoad = async (event) => {
@@ -44,7 +43,7 @@ export const actions: Actions = {
 		});
 
 		// check if email is already used
-		const existingUser = await user.findByEmail(form.data.email);
+		const existingUser = await userService.findByEmail(form.data.email);
 
 		if (existingUser) {
 			return fail(400, {
@@ -52,22 +51,19 @@ export const actions: Actions = {
 			});
 		}
 
-		const userId = generateIdFromEntropySize(10);
-		await user.create({
-			id: userId,
+		const createdUserId = await userService.create({
 			firstName: form.data.firstName,
 			lastName: form.data.lastName,
 			email: form.data.email,
-			passwordHash: passwordHash
+			passwordHash
 		});
 
 		await workspaceService.create({
-			id: generateIdFromEntropySize(10),
-			userId: userId,
-			name: 'Personal'
+			userId: createdUserId,
+			name: `${form.data.firstName} ${form.data.lastName}'s Workspace`
 		});
 
-		await session.create(event, userId);
+		await sessionService.create(event, createdUserId);
 
 		redirect(302, '/app');
 	}

@@ -8,6 +8,9 @@ export const userSchema = z.object({
 });
 export type UserSchema = z.infer<typeof userSchema>;
 
+export const createUserSchema = userSchema.omit({ id: true });
+export type CreateUserSchema = z.infer<typeof createUserSchema>;
+
 export const updateUserSchema = userSchema.omit({ id: true, passwordHash: true }).partial();
 export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
 

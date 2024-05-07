@@ -1,7 +1,8 @@
 import { eq } from 'drizzle-orm';
 import db from '$lib/server/db/db';
 import { userTable } from './user.table';
-import { type UserSchema , type UpdateUserSchema} from '@lib/schemas/user';
+import { type CreateUserSchema, type UpdateUserSchema } from '@lib/schemas/user';
+import { generateDatabaseId } from '@lib/server/db/helper';
 
 const findOne = async (id: string) => {
 	return await db.query.userTable.findFirst({
@@ -13,8 +14,14 @@ const findMany = async () => {
 	return await db.query.userTable.findMany();
 };
 
-const create = async (data: UserSchema) => {
-	return await db.insert(userTable).values(data);
+const create = async (data: CreateUserSchema) => {
+	const userId = generateDatabaseId();
+	await db.insert(userTable).values({
+		id: userId,
+		...data,
+	});
+	
+	return userId;
 };
 
 const update = async (id: string, data: UpdateUserSchema) => {

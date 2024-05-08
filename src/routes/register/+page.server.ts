@@ -39,6 +39,7 @@ export const actions: Actions = {
 		// check if email is already used
 		const existingUser = await userService.findByEmail(form.data.email);
 
+		// For security reasons, we don't want to tell the user if the email is already in use
 		if (existingUser) {
 			return fail(400, {
 				message: 'Incorrect email or password'

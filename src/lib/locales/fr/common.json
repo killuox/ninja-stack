@@ -1,3 +1,5 @@
 {
-    "page": "Cette page est {{pageName}}"
+    "errors": {
+        "try_again": "Une erreur est survenue, veuillez réessayer plus tard."
+    }
 }

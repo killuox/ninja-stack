@@ -8,6 +8,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { registerUserSchema, type RegisterUserSchema } from '@schemas/user';
 	import { toast } from 'svelte-sonner';
+	import { t } from '$lib/locales';
 
 	let { data } = $props();
 	const { form: formProps } = data;
@@ -18,13 +19,13 @@
 		onResult: ({ result }) => {
 			switch (result.type) {
 				case 'success':
-					toast.success('Account created successfully');
+					toast.success($t('account.created.success'));
 					break;
 				case 'error':
-					toast.error('An error occurred, please try again later');
+					toast.error($t('common.errors.tryAgain'));
 					break;
 				case 'failure':
-					toast.error(result.data?.message || 'An error occurred, please try again later');
+					toast.error(result.data?.message || $t('common.errors.tryAgain'));
 					break;
 				default:
 					return;
@@ -39,8 +40,8 @@
 <AuthLayout>
 	<Card.Root>
 		<Card.Header>
-			<Card.Title class="text-xl">Register</Card.Title>
-			<Card.Description>Enter your information to create an account</Card.Description>
+			<Card.Title class="text-xl">{$t('auth.register.label')}</Card.Title>
+			<Card.Description>{$t('auth.register.description')}</Card.Description>
 		</Card.Header>
 		<Card.Content>
 			<form method="POST" use:enhance>
@@ -48,14 +49,14 @@
 					<div class="grid grid-cols-2 gap-4">
 						<Form.Field {form} name="firstName">
 							<Form.Control let:attrs>
-								<Form.Label>First name</Form.Label>
+								<Form.Label>{$t('form.first_name.label')}</Form.Label>
 								<Input type="text" bind:value={$formData.firstName} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
 						<Form.Field {form} name="lastName">
 							<Form.Control let:attrs>
-								<Form.Label>Last name</Form.Label>
+								<Form.Label>{$t('form.last_name.label')}</Form.Label>
 								<Input type="text" bind:value={$formData.lastName} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
@@ -63,30 +64,30 @@
 					</div>
 					<Form.Field {form} name="email">
 						<Form.Control let:attrs>
-							<Form.Label>Email</Form.Label>
+							<Form.Label>{$t('form.email.label')}</Form.Label>
 							<Input type="email" bind:value={$formData.email} {...attrs} />
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>
 					<Form.Field {form} name="password">
 						<Form.Control let:attrs>
-							<Form.Label>Password</Form.Label>
+							<Form.Label>{$t('form.password.label')}</Form.Label>
 							<Input type="password" bind:value={$formData.password} {...attrs} />
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>
 					<Form.Field {form} name="passwordConfirm">
 						<Form.Control let:attrs>
-							<Form.Label>Confirm Password</Form.Label>
+							<Form.Label>{$t('form.password_confirm.label')}</Form.Label>
 							<Input type="password" bind:value={$formData.passwordConfirm} {...attrs} />
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>
-					<Button type="submit" class="w-full">Create an account</Button>
+					<Button type="submit" class="w-full">{$t('auth.register.action')}</Button>
 				</div>
 				<div class="mt-4 text-center text-sm">
-					Already have an account?
-					<a href="/login" class="underline"> Log in </a>
+					{$t('account.exist.question')}
+					<a href="/login" class="underline"> {$t('auth.login.label')} </a>
 				</div>
 			</form>
 		</Card.Content>

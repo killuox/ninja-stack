@@ -1,0 +1,14 @@
+{
+    "created": {
+        "success": "Compte créé avec succès"
+    },
+    "connect": {
+        "success": "Vous êtes maintenant connecté"
+    },
+    "empty": {
+        "question": "Vous n'avez pas de compte?"
+    },
+    "exist": {
+        "question": "Vous avez déjà un compte?"
+    }
+}

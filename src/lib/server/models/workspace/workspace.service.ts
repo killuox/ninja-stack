@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import db from '$lib/server/db/db';
 import { workspaceTable } from './workspace.table';
 import { type CreateWorkspaceSchema } from '@lib/schemas/workspace';
-import { generateDatabaseId } from '@lib/server/helpers/helper';
+import { generateDatabaseId } from '@lib/server/helpers/db';
 
 const findOne = async (id: string) => {
 	return await db.query.workspaceTable.findFirst({

@@ -1,0 +1,14 @@
+{
+    "created": {
+        "success": "Account created successfully."
+    },
+    "connect": {
+        "success": "You are now connected."
+    },
+    "empty": {
+        "question": "Don't have an account?"
+    },
+    "exist": {
+        "question": "Already have an account?"
+    }
+}

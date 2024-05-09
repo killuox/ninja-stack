@@ -1,0 +1,17 @@
+{
+    "email": {
+        "label": "Courriel"
+    },
+    "password": {
+        "label": "Mot de passe"
+    },
+    "first_name": {
+        "label": "Prénom"
+    },
+    "last_name": {
+        "label": "Nom de famille"
+    },
+    "password_confirm": {
+        "label": "Confirmer le mot de passe"
+    }
+}

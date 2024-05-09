@@ -18,9 +18,6 @@
 		resetForm: true,
 		onResult: ({ result }) => {
 			switch (result.type) {
-				case 'success':
-					toast.success($t('account.connect.success'));
-					break;
 				case 'error':
 					toast.error($t('common.errors.tryAgain'));
 					break;

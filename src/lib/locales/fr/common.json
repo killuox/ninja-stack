@@ -1,5 +1,11 @@
 {
     "errors": {
         "try_again": "Une erreur est survenue, veuillez réessayer plus tard."
-    }
+    },
+    "user": {
+		"label": "Utilisateur",
+		"many": {
+			"label": "Utilisateurs"
+		}
+	}
 }

@@ -1,5 +1,11 @@
 {
-    "errors": {
-        "try_again": "An error occurred. Please try again later."
-    }
+	"errors": {
+		"try_again": "An error occurred. Please try again later."
+	},
+	"user": {
+		"label": "User",
+		"many": {
+			"label": "Users"
+		}
+	}
 }

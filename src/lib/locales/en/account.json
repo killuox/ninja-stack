@@ -10,5 +10,8 @@
     },
     "exist": {
         "question": "Already have an account?"
+    },
+    "profile": {
+        "label": "Profile"
     }
 }

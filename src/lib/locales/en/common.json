@@ -7,5 +7,8 @@
 		"many": {
 			"label": "Users"
 		}
-	}
+	},
+	"french": "French",
+	"english": "English",
+	"update": "Update"
 }

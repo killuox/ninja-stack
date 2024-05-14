@@ -13,5 +13,8 @@
     },
     "password_confirm": {
         "label": "Confirmer le mot de passe"
+    },
+    "language": {
+        "label": "Langue"
     }
 }

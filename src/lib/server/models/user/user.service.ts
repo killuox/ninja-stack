@@ -3,11 +3,20 @@ import db from '@server/db/db';
 import { userTable } from './user.table';
 import { type CreateUserSchema, type UpdateUserSchema } from '@schemas/user';
 import { generateDatabaseId } from '@server/helpers/db';
+import { error } from '@sveltejs/kit';
 
 const findOne = async (id: string) => {
-	return await db.query.userTable.findFirst({
+	const result = await db.query.userTable.findFirst({
 		where: eq(userTable.id, id)
 	});
+
+	if (!result) {
+		error(404, {
+			message: 'User not found'
+		});
+	}
+
+	return result;
 };
 
 const findMany = async () => {

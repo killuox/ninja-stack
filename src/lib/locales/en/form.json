@@ -5,16 +5,25 @@
     "password": {
         "label": "Password"
     },
-    "first_name": {
+    "firstName": {
         "label": "First Name"
     },
-    "last_name": {
+    "lastName": {
         "label": "Last Name"
     },
-    "password_confirm": {
+    "passwordConfirm": {
         "label": "Confirm Password"
     },
     "language": {
         "label": "Language"
+    },
+    "currentPassword": {
+        "label": "Current Password"
+    },
+    "newPassword": {
+        "label": "New Password"
+    },
+    "newPasswordConfirm": {
+        "label": "Confirm New Password"
     }
 }

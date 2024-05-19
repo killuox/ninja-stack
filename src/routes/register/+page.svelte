@@ -46,14 +46,14 @@
 					<div class="grid grid-cols-2 gap-4">
 						<Form.Field {form} name="firstName">
 							<Form.Control let:attrs>
-								<Form.Label>{$t('form.first_name.label')}</Form.Label>
+								<Form.Label>{$t('form.firstName.label')}</Form.Label>
 								<Input type="text" bind:value={$formData.firstName} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
 						<Form.Field {form} name="lastName">
 							<Form.Control let:attrs>
-								<Form.Label>{$t('form.last_name.label')}</Form.Label>
+								<Form.Label>{$t('form.lastName.label')}</Form.Label>
 								<Input type="text" bind:value={$formData.lastName} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />

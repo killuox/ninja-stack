@@ -3,9 +3,9 @@ import { ENV } from './src/lib/server/env';
 
 export default defineConfig({
 	schema: './src/lib/server/db/tables.ts',
-	driver: 'pg',
+	dialect: 'postgresql',
 	dbCredentials: {
-		connectionString: ENV.DRIZZLE_DATABASE_URL
+		url: ENV.DRIZZLE_DATABASE_URL
 	},
 	verbose: true,
 	strict: true

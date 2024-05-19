@@ -1,0 +1,61 @@
+<script lang="ts">
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import * as Form from '$lib/components/ui/form';
+	import { type SuperValidated, superForm } from 'sveltekit-superforms';
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { changePasswordSchema, type ChangePasswordSchema } from '@schemas/user';
+	import { toast } from 'svelte-sonner';
+	import { t } from '$lib/locales';
+	let { form: formProps } = $props();
+
+	const form = superForm(formProps as SuperValidated<ChangePasswordSchema>, {
+		validators: zodClient(changePasswordSchema),
+		resetForm: true,
+		onResult: ({ result }) => {
+			switch (result.type) {
+				case 'error':
+					toast.error($t('common.errors.tryAgain'));
+					break;
+				case 'failure':
+					toast.error(result.data?.message || $t('common.errors.tryAgain'));
+					break;
+				default:
+					return;
+			}
+			return;
+		}
+	});
+	const { form: formData, enhance } = form;
+</script>
+
+<form method="POST" use:enhance action="?/changePassword">
+	<div class="grid gap-4">
+		<div class="grid gap-4 md:grid-cols-2">
+			<Form.Field {form} name="currentPassword">
+				<Form.Control let:attrs>
+					<Form.Label>{$t('form.currentPassword.label')}</Form.Label>
+					<Input type="text" bind:value={$formData.currentPassword} {...attrs} />
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+			<div class="md:flex flex-col">
+				<Form.Field {form} name="newPassword">
+					<Form.Control let:attrs>
+						<Form.Label>{$t('form.newPassword.label')}</Form.Label>
+						<Input type="text" bind:value={$formData.newPassword} {...attrs} />
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Field {form} name="newPasswordConfirm">
+					<Form.Control let:attrs>
+						<Form.Label>{$t('form.newPasswordConfirm.label')}</Form.Label>
+						<Input type="text" bind:value={$formData.newPasswordConfirm} {...attrs} />
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+			</div>
+		</div>
+		<Button type="submit" class="w-full">{$t('common.changePassword')}</Button>
+	</div>
+</form>

@@ -8,9 +8,16 @@
 	import { toast } from 'svelte-sonner';
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
-	let { form: formProps } = $props();
 
-	const form = superForm(formProps as SuperValidated<UpdateUserSchema>, {
+	let { form: formProps, data }: {
+		form: SuperValidated<UpdateUserSchema>;
+		data: {
+			updateUserForm: SuperValidated<UpdateUserSchema>;
+		};
+	
+	} = $props();
+
+	const form = superForm(data.updateUserForm as SuperValidated<UpdateUserSchema>, {
 		validators: zodClient(updateUserSchema),
 		resetForm: true,
 		onResult: ({ result }) => {

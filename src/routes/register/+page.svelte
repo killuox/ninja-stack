@@ -75,7 +75,7 @@
 					</Form.Field>
 					<Form.Field {form} name="passwordConfirm">
 						<Form.Control let:attrs>
-							<Form.Label>{$t('form.password_confirm.label')}</Form.Label>
+							<Form.Label>{$t('form.passwordConfirm.label')}</Form.Label>
 							<Input type="password" bind:value={$formData.passwordConfirm} {...attrs} />
 						</Form.Control>
 						<Form.FieldErrors />

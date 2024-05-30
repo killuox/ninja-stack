@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad } from './$types';
-import { setError, superValidate } from 'sveltekit-superforms';
+import { message, setError, superValidate } from 'sveltekit-superforms';
 import { error, fail } from '@sveltejs/kit';
-import { registerUserSchema, changePasswordSchema, updateUserSchema } from '@schemas/user';
+import { changePasswordSchema, updateUserSchema } from '@schemas/user';
 import { zod } from 'sveltekit-superforms/adapters';
 import userService from '@lib/server/models/user/user.service';
 
@@ -16,17 +16,14 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: event.locals.session,
-		updateUserForm: await superValidate(
+		form: await superValidate(
 			{
 				firstName: userToUpdate.firstName,
 				lastName: userToUpdate.lastName,
 				email: userToUpdate.email,
 				language: userToUpdate.language
 			},
-			zod(updateUserSchema),
-			{
-				id: 'updateUserForm'
-			}
+			zod(updateUserSchema)
 		),
 		changePasswordForm: await superValidate(zod(changePasswordSchema))
 	};
@@ -40,26 +37,31 @@ export const actions: Actions = {
 			});
 		}
 
-		const updateUserForm = await superValidate(event, zod(updateUserSchema), {
+		const form = await superValidate(event, zod(updateUserSchema), {
 			id: 'updateUserForm'
 		});
 
-		if (!updateUserForm.valid) {
-			fail(400, updateUserForm);
+		if (!form.valid) {
+			fail(400, {
+				form: form
+			});
 		}
 
-		const updateResult = await userService.update(session.userId, updateUserForm.data);
-		console.log('updateResult', updateResult);
-		if(!updateResult) {
-			setError(updateUserForm, '', 'Error updating user information');
+		const updateResult = await userService.update(
+			session.userId,
+			form.data
+		);
+
+		if (!updateResult) {
+			setError(form, '', 'Error updating user information');
 		}
 
-		return {updateUserForm};
+		return message(form, 'User information updated');
 	},
 	changePassword: async (event) => {
 		const session = event.locals.session;
 		if (!session) {
-			return error(401, {
+			error(401, {
 				message: 'You are not logged in'
 			});
 		}

@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 
 	$: paths = $page.url.pathname.split('/').filter(Boolean);
-	
 </script>
 
 <Breadcrumb.Root class="hidden md:flex">
@@ -15,7 +14,7 @@
 				</Breadcrumb.Item>
 			{:else if i !== paths.length - 1}
 				<Breadcrumb.Item>
-					<Breadcrumb.Link href={paths.slice(0, i + 1).join('/')}>{path}</Breadcrumb.Link>
+					<Breadcrumb.Link href={'/' + paths.slice(0, i + 1).join('/')}>{path}</Breadcrumb.Link>
 				</Breadcrumb.Item>
 			{:else}
 				<Breadcrumb.Item>

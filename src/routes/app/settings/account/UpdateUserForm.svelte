@@ -9,15 +9,9 @@
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
 
-	let { form: formProps, data }: {
-		form: SuperValidated<UpdateUserSchema>;
-		data: {
-			updateUserForm: SuperValidated<UpdateUserSchema>;
-		};
-	
-	} = $props();
+	export let updateUserForm: SuperValidated<UpdateUserSchema>;
 
-	const form = superForm(data.updateUserForm as SuperValidated<UpdateUserSchema>, {
+	const form = superForm(updateUserForm as SuperValidated<UpdateUserSchema>, {
 		validators: zodClient(updateUserSchema),
 		resetForm: true,
 		onResult: ({ result }) => {
@@ -35,14 +29,12 @@
 		}
 	});
 	const { form: formData, enhance } = form;
-	let selectedLanguage = $derived(
-		$formData.language
-			? {
-					label: $formData.language,
-					value: $formData.language
-				}
-			: undefined
-	);
+	$: selectedLanguage = $formData.language
+		? {
+				label: $formData.language,
+				value: $formData.language
+			}
+		: undefined;
 </script>
 
 <form method="POST" use:enhance action="?/updateUser">

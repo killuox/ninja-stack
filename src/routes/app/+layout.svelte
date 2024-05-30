@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Aside from '@components/layout/Aside.svelte';
 	import Header from '@components/layout/Header.svelte';
-	let { children } = $props();
 </script>
 
 <div class="flex min-h-screen w-full flex-col bg-muted/40">
@@ -11,7 +10,7 @@
 		<main
 			class="flex h-full w-full"
 		>
-			{@render children()}
+		<slot />
 		</main>
 	</div>
 </div>

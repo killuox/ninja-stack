@@ -1,5 +1,5 @@
 <script>
-	let { data } = $props();
+	export let data;
 </script>
 
 <div class="flex items-center space-x-4">

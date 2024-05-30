@@ -7,9 +7,10 @@
 	import { changePasswordSchema, type ChangePasswordSchema } from '@schemas/user';
 	import { toast } from 'svelte-sonner';
 	import { t } from '$lib/locales';
-	let { form: formProps } = $props();
 
-	const form = superForm(formProps as SuperValidated<ChangePasswordSchema>, {
+	export let changePasswordForm: SuperValidated<ChangePasswordSchema>;
+
+	const form = superForm(changePasswordForm as SuperValidated<ChangePasswordSchema>, {
 		validators: zodClient(changePasswordSchema),
 		resetForm: true,
 		onResult: ({ result }) => {
@@ -39,7 +40,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
-			<div class="md:flex flex-col">
+			<div class="flex-col md:flex">
 				<Form.Field {form} name="newPassword">
 					<Form.Control let:attrs>
 						<Form.Label>{$t('form.newPassword.label')}</Form.Label>

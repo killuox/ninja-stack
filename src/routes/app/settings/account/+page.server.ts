@@ -16,7 +16,7 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: event.locals.session,
-		form: await superValidate(
+		updateUserForm: await superValidate(
 			{
 				firstName: userToUpdate.firstName,
 				lastName: userToUpdate.lastName,

@@ -2,7 +2,7 @@
 	import * as Breadcrumb from '@components/ui/breadcrumb/index.js';
 	import { page } from '$app/stores';
 
-	const paths = $derived($page.url.pathname.split('/').filter(Boolean));
+	$: paths = $page.url.pathname.split('/').filter(Boolean);
 	
 </script>
 

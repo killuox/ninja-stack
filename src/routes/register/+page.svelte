@@ -10,7 +10,7 @@
 	import { toast } from 'svelte-sonner';
 	import { t } from '$lib/locales';
 
-	let { data } = $props();
+	export let data;
 	const { form: formProps } = data;
 
 	const form = superForm(formProps as SuperValidated<RegisterUserSchema>, {

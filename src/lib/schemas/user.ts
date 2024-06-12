@@ -8,6 +8,7 @@ export const userSchema = z.object({
 	language: z.enum(['en', 'fr']).default('en'),
 });
 export type UserSchema = z.infer<typeof userSchema>;
+export type SanitizedUser = Omit<UserSchema, 'passwordHash'>;
 
 export const createUserSchema = userSchema.omit({ id: true });
 export type CreateUserSchema = z.infer<typeof createUserSchema>;

@@ -1,12 +1,7 @@
 <script lang="ts">
 	import {
 		PanelLeft,
-		UsersRound,
-		ShoppingCart,
-		Package,
-		Package2,
 		LineChart,
-		Home
 	} from 'lucide-svelte';
 
 	import { Button } from '@components/ui/button/index.js';
@@ -14,6 +9,12 @@
 	import * as Sheet from '@components/ui/sheet/index.js';
 	import Breadcrumb from '@components/layout/Breadcrumb.svelte';
 	import { appRoutes } from '@configs/routes.js';
+	import * as Avatar from "$lib/components/ui/avatar/index.js";
+	import type { SanitizedUser } from '@lib/schemas/user';
+
+	export let user: SanitizedUser;
+
+	$: userInitials = user.firstName[0] + user.lastName[0];
 </script>
 
 <header
@@ -57,13 +58,9 @@
 					class="overflow-hidden rounded-full"
 					builders={[builder]}
 				>
-					<img
-						src="/images/placeholder-user.jpg"
-						width={36}
-						height={36}
-						alt="Avatar"
-						class="overflow-hidden rounded-full"
-					/>
+					<Avatar.Root class="h-8 w-8 uppercase">
+						<Avatar.Fallback>{userInitials}</Avatar.Fallback>
+					</Avatar.Root>
 				</Button>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content align="end">

@@ -1,6 +1,10 @@
 {
 	"errors": {
-		"try_again": "Une erreur est survenue, veuillez réessayer plus tard."
+		"try_again": "Une erreur est survenue, veuillez réessayer plus tard.",
+		"unauthorized": "Vous n'êtes pas autorisé"
+	},
+	"success": {
+		"save": "Sauvegarde effectuée avec succès"
 	},
 	"user": {
 		"label": "Utilisateur",

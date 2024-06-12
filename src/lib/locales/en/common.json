@@ -1,6 +1,10 @@
 {
 	"errors": {
-		"tryAgain": "An error occurred. Please try again later."
+		"tryAgain": "An error occurred. Please try again later.",
+		"unauthorized": "You are not authorized"
+	},
+	"success": {
+		"save": "Successfully saved"
 	},
 	"user": {
 		"label": "User",

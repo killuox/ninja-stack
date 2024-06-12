@@ -3,7 +3,8 @@
 	import UpdateUserForm from './UpdateUserForm.svelte';
 	import ChangePasswordForm from './ChangePasswordForm.svelte';
 	import { t } from '$lib/locales';
-	export let data;
+	import type { PageData } from "./$types.js";
+	export let data: PageData;
 </script>
 
 <Card.Root class="m-4 w-full max-w-xl md:mx-auto md:w-3/4">

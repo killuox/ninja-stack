@@ -8,14 +8,21 @@
 	import { toast } from 'svelte-sonner';
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
-
 	export let updateUserForm: SuperValidated<UpdateUserSchema>;
 
-	const form = superForm(updateUserForm as SuperValidated<UpdateUserSchema>, {
+	const languageOptions = {
+		en: $t('common.english'),
+		fr: $t('common.french')
+	}
+
+	const form = superForm(updateUserForm, {
 		validators: zodClient(updateUserSchema),
-		resetForm: true,
+		resetForm: false,
 		onResult: ({ result }) => {
 			switch (result.type) {
+				case 'success':
+					toast.success($t('common.success.save'));
+					break;
 				case 'error':
 					toast.error($t('common.errors.tryAgain'));
 					break;
@@ -31,7 +38,7 @@
 	const { form: formData, enhance } = form;
 	$: selectedLanguage = $formData.language
 		? {
-				label: $formData.language,
+				label: languageOptions[$formData.language],
 				value: $formData.language
 			}
 		: undefined;
@@ -43,14 +50,14 @@
 			<Form.Field {form} name="firstName">
 				<Form.Control let:attrs>
 					<Form.Label>{$t('form.firstName.label')}</Form.Label>
-					<Input type="text" bind:value={$formData.firstName} {...attrs} />
+					<Input {...attrs} type="text" bind:value={$formData.firstName} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Field {form} name="lastName">
 				<Form.Control let:attrs>
 					<Form.Label>{$t('form.lastName.label')}</Form.Label>
-					<Input type="text" bind:value={$formData.lastName} {...attrs} />
+					<Input {...attrs} type="text" bind:value={$formData.lastName} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
@@ -59,7 +66,7 @@
 			<Form.Field {form} name="email">
 				<Form.Control let:attrs>
 					<Form.Label>{$t('form.email.label')}</Form.Label>
-					<Input type="email" bind:value={$formData.email} {...attrs} />
+					<Input {...attrs} type="email" bind:value={$formData.email} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>

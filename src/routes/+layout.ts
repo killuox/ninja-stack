@@ -1,10 +1,10 @@
-import type { LayoutServerLoad } from './$types';
+import type { LayoutLoad } from './$types';
 import { browser } from '$app/environment';
 import { loadTranslations, locale } from '$lib/locales';
 
-export const load: LayoutServerLoad = async (event) => {
+export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
-
+	const user = event.data.user;
 	let defaultLocale = 'en';
 
 	// get browser locale
@@ -17,11 +17,11 @@ export const load: LayoutServerLoad = async (event) => {
 		defaultLocale = browserLocale;
 	}
 
-	const initLocale = locale.get() || defaultLocale; // set default if no locale already set
+	const initLocale = locale.get() || user?.language || defaultLocale;
 
 	await loadTranslations(initLocale, pathname);
 
 	return {
-		lang: browser ? navigator.language.split('-')[0] : 'en'
+		lang: initLocale
 	};
 };

@@ -5,7 +5,6 @@ import { changePasswordSchema, updateUserSchema } from '@schemas/user';
 import { zod } from 'sveltekit-superforms/adapters';
 import userService from '@lib/server/models/user/user.service';
 
-
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.session) {
 		error(401, {

@@ -9,11 +9,11 @@
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
 	export let updateUserForm: SuperValidated<UpdateUserSchema>;
-
+	let languageHasChanged = false;
 	const languageOptions = {
 		en: $t('common.english'),
 		fr: $t('common.french')
-	}
+	};
 
 	const form = superForm(updateUserForm, {
 		validators: zodClient(updateUserSchema),
@@ -32,7 +32,18 @@
 				default:
 					return;
 			}
+			if (languageHasChanged) {
+				location.reload();
+			}
 			return;
+		},
+		onChange: (data) => {
+			const initialLanguage = updateUserForm.data.language;
+			if ($formData.language !== initialLanguage) {
+				languageHasChanged = true;
+			} else {
+				languageHasChanged = false;
+			}
 		}
 	});
 	const { form: formData, enhance } = form;

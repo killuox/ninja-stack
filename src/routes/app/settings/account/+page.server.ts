@@ -79,9 +79,7 @@ export const actions: Actions = {
 		const validPassword = await verifyPassword(user.passwordHash, changePasswordForm.data.currentPassword);
 	
 		if (!validPassword) {
-			return fail(400, {
-				message: 'Incorrect current password'
-			});
+			setError(changePasswordForm, 'currentPassword', 'Invalid password');
 		}
 
 		// Generate new password hash

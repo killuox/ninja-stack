@@ -17,7 +17,8 @@ export const updateUserSchema = z.object({
 	firstName: userSchema.shape.firstName,
 	lastName: userSchema.shape.lastName,
 	email: userSchema.shape.email,
-	language: userSchema.shape.language
+	language: userSchema.shape.language,
+	passwordHash: z.string().min(6, 'Password must be at least 6 characters').max(64, 'Password must be 64 characters or less'),
 });
 
 export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
@@ -57,6 +58,8 @@ export const changePasswordSchema = z.object({
 	currentPassword: z.string(),
 	newPassword: z.string().min(6, 'Password must be at least 6 characters'),
 	newPasswordConfirm: z.string().min(6, 'Password must be at least 6 characters')
+}).refine(data => data.newPassword === data.newPasswordConfirm, {
+	message: 'Passwords do not match',
 });
 
 export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;

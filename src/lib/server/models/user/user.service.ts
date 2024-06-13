@@ -33,7 +33,7 @@ const create = async (data: CreateUserSchema) => {
 	return userId;
 };
 
-const update = async (id: string, data: UpdateUserSchema) => {
+const update = async (id: string, data: Partial<UpdateUserSchema>) => {
 	return await db
 		.update(userTable)
 		.set({

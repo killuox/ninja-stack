@@ -36,7 +36,7 @@
 			<Form.Field {form} name="currentPassword">
 				<Form.Control let:attrs>
 					<Form.Label>{$t('form.currentPassword.label')}</Form.Label>
-					<Input type="text" bind:value={$formData.currentPassword} {...attrs} />
+					<Input type="password" bind:value={$formData.currentPassword} {...attrs} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
@@ -44,14 +44,14 @@
 				<Form.Field {form} name="newPassword">
 					<Form.Control let:attrs>
 						<Form.Label>{$t('form.newPassword.label')}</Form.Label>
-						<Input type="text" bind:value={$formData.newPassword} {...attrs} />
+						<Input type="password" bind:value={$formData.newPassword} {...attrs} />
 					</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="newPasswordConfirm">
 					<Form.Control let:attrs>
 						<Form.Label>{$t('form.newPasswordConfirm.label')}</Form.Label>
-						<Input type="text" bind:value={$formData.newPasswordConfirm} {...attrs} />
+						<Input type="password" bind:value={$formData.newPasswordConfirm} {...attrs} />
 					</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>

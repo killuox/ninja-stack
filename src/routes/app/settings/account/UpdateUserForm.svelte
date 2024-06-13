@@ -37,7 +37,7 @@
 			}
 			return;
 		},
-		onChange: (data) => {
+		onChange: () => {
 			const initialLanguage = updateUserForm.data.language;
 			if ($formData.language !== initialLanguage) {
 				languageHasChanged = true;

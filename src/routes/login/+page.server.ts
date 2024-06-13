@@ -31,7 +31,7 @@ export const actions: Actions = {
 
 		if (!existingUser) {
 			return fail(400, {
-				message: 'Incorrect email or password'
+				message: 'INVALID_EMAIL_OR_PASSWORD'
 			});
 		}
 
@@ -39,7 +39,7 @@ export const actions: Actions = {
 	
 		if (!validPassword) {
 			return fail(400, {
-				message: 'Incorrect email or password'
+				message: 'INVALID_EMAIL_OR_PASSWORD'
 			});
 		}
 

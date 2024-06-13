@@ -9,7 +9,7 @@ import { verifyPassword, generatePasswordHash } from '@lib/server/helpers/auth';
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.session) {
 		error(401, {
-			message: 'You are not logged in'
+			message: 'UNAUTHORIZED'
 		});
 	}
 
@@ -17,9 +17,10 @@ export const load: PageServerLoad = async (event) => {
 
 	if (!userToUpdate) {
 		error(404, {
-			message: 'User not found'
+			message: 'USER_NOT_FOUND'
 		});
 	}
+
 	const updateUserForm = await superValidate(
 		{
 			firstName: userToUpdate.firstName,
@@ -41,7 +42,7 @@ export const actions: Actions = {
 		const session = event.locals.session;
 		if (!session) {
 			error(401, {
-				message: 'You are not logged in'
+				message: 'UNAUTHORIZED'
 			});
 		}
 
@@ -54,16 +55,16 @@ export const actions: Actions = {
 		const updateResult = await userService.update(session.userId, updateUserForm.data);
 
 		if (!updateResult) {
-			setError(updateUserForm, '', 'Error updating user information');
+			setError(updateUserForm, '', 'UPDATE_FAILED');
 		}
 
-		return message(updateUserForm, 'User information updated');
+		return message(updateUserForm, 'UPDATE_SUCCESS');
 	},
 	changePassword: async (event) => {
 		const session = event.locals.session;
 		if (!session) {
 			error(401, {
-				message: 'You are not logged in'
+				message: 'UNAUTHORIZED'
 			});
 		}
 
@@ -76,10 +77,13 @@ export const actions: Actions = {
 		// Validate current password
 		const user = await userService.findOne(session.userId);
 
-		const validPassword = await verifyPassword(user.passwordHash, changePasswordForm.data.currentPassword);
-	
+		const validPassword = await verifyPassword(
+			user.passwordHash,
+			changePasswordForm.data.currentPassword
+		);
+
 		if (!validPassword) {
-			setError(changePasswordForm, 'currentPassword', 'Invalid password');
+			setError(changePasswordForm, 'currentPassword', 'INVALID_PASSWORD');
 		}
 
 		// Generate new password hash
@@ -90,9 +94,9 @@ export const actions: Actions = {
 		});
 
 		if (!updateResult) {
-			setError(changePasswordForm, '', 'Error updating password');
+			setError(changePasswordForm, '', 'UPDATE_FAILED');
 		}
 
-		return message(changePasswordForm, 'Password updated');
+		return message(changePasswordForm, 'UPDATE_SUCCESS');
 	}
 };

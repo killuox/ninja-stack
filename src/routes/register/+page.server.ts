@@ -31,7 +31,7 @@ export const actions: Actions = {
 		}
 
 		if (form.data.password !== form.data.passwordConfirm) {
-			return setError(form, 'passwordConfirm', 'Passwords do not match');
+			return setError(form, 'passwordConfirm', 'PASSWORDS_DO_NOT_MATCH');
 		}
 
 		const passwordHash = await generatePasswordHash(form.data.password);
@@ -42,7 +42,7 @@ export const actions: Actions = {
 		// For security reasons, we don't want to tell the user if the email is already in use
 		if (existingUser) {
 			return fail(400, {
-				message: 'Incorrect email or password'
+				message: 'INVALID_EMAIL_OR_PASSWORD'
 			});
 		}
 
@@ -50,7 +50,8 @@ export const actions: Actions = {
 			firstName: form.data.firstName,
 			lastName: form.data.lastName,
 			email: form.data.email,
-			passwordHash
+			passwordHash,
+			language: navigator.language.split('-')[0] === 'fr' ? 'fr' : 'en' // TODO: Make sure it works
 		});
 
 		await workspaceService.create({

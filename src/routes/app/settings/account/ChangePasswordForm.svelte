@@ -2,30 +2,16 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
-	import { type SuperValidated, superForm } from 'sveltekit-superforms';
+	import { type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { changePasswordSchema, type ChangePasswordSchema } from '@schemas/user';
-	import { toast } from 'svelte-sonner';
 	import { t } from '$lib/locales';
-
+	import { superForm } from '@lib/utils/superform';
 	export let changePasswordForm: SuperValidated<ChangePasswordSchema>;
 
-	const form = superForm(changePasswordForm as SuperValidated<ChangePasswordSchema>, {
+	const form = superForm(changePasswordForm, {
 		validators: zodClient(changePasswordSchema),
-		resetForm: true,
-		onResult: ({ result }) => {
-			switch (result.type) {
-				case 'error':
-					toast.error($t('common.errors.tryAgain'));
-					break;
-				case 'failure':
-					toast.error(result.data?.message || $t('common.errors.tryAgain'));
-					break;
-				default:
-					return;
-			}
-			return;
-		}
+		resetForm: true
 	});
 	const { form: formData, enhance } = form;
 </script>

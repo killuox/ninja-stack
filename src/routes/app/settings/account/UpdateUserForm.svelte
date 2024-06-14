@@ -2,12 +2,13 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
-	import { type SuperValidated, superForm } from 'sveltekit-superforms';
+	import { type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { updateUserSchema, type UpdateUserSchema } from '@schemas/user';
-	import { toast } from 'svelte-sonner';
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
+	import { superForm } from '@lib/utils/superform';
+	
 	export let updateUserForm: SuperValidated<UpdateUserSchema>;
 	let languageHasChanged = false;
 	const languageOptions = {
@@ -19,20 +20,6 @@
 		validators: zodClient(updateUserSchema),
 		resetForm: false,
 		onResult: ({ result }) => {
-			console.log(result)
-			switch (result.type) {
-				case 'success':
-					toast.success($t('common.success.save'));
-					break;
-				case 'error':
-					toast.error($t('common.errors.tryAgain'));
-					break;
-				case 'failure':
-					toast.error(result.data?.message || $t('common.errors.tryAgain'));
-					break;
-				default:
-					return;
-			}
 			if (languageHasChanged) {
 				location.reload();
 			}

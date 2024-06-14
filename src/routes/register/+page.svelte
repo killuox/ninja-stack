@@ -4,31 +4,17 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
 	import AuthLayout from '@components/layout/AuthLayout.svelte';
-	import { type SuperValidated, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { registerUserSchema, type RegisterUserSchema } from '@schemas/user';
-	import { toast } from 'svelte-sonner';
+	import { registerUserSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
+	import { superForm } from '@lib/utils/superform';
 
 	export let data;
 	const { form: formProps } = data;
 
-	const form = superForm(formProps as SuperValidated<RegisterUserSchema>, {
+	const form = superForm(formProps, {
 		validators: zodClient(registerUserSchema),
-		resetForm: true,
-		onResult: ({ result }) => {
-			switch (result.type) {
-				case 'error':
-					toast.error($t('common.errors.tryAgain'));
-					break;
-				case 'failure':
-					toast.error(result.data?.message || $t('common.errors.tryAgain'));
-					break;
-				default:
-					return;
-			}
-			return;
-		}
+		resetForm: true
 	});
 
 	const { form: formData, enhance } = form;

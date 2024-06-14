@@ -21,16 +21,15 @@ export const superForm = <
 		onResult: (e) => {
 			const { result } = e;
 			switch (result.type) {
-				case 'error':
-					toast.error(t.get('error_code.TRY_AGAIN'));
+				case 'success':
+					toast.success(result?.data?.form.message || t.get('common.success.message'));
 					break;
 				case 'failure':
-					toast.error(result.data?.message || t.get('error_code.TRY_AGAIN'));
+					toast.error(result.data?.form.message || t.get('error_code.TRY_AGAIN'));
 					break;
 				default:
 					return;
 			}
-			formOptions?.onResult?.(e);
 		}
 	});
 };

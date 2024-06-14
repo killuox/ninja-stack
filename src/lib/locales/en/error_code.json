@@ -6,5 +6,6 @@
     "UPDATE_SUCCESS": "Update success",
     "INVALID_PASSWORD": "Invalid password",
     "PASSWORD_DO_NOT_MATCH": "Password do not match",
-    "INVALID_EMAIL_OR_PASSWORD": "Invalid email or password"
+    "INVALID_EMAIL_OR_PASSWORD": "Invalid email or password",
+    "TRY_AGAIN": "Something went wrong, please try again"
 }

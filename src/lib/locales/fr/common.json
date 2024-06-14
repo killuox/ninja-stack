@@ -4,6 +4,7 @@
 		"unauthorized": "Vous n'êtes pas autorisé"
 	},
 	"success": {
+		"message": "Succès",
 		"save": "Sauvegarde effectuée avec succès"
 	},
 	"user": {

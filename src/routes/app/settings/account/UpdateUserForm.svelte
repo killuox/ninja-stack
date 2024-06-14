@@ -19,6 +19,7 @@
 		validators: zodClient(updateUserSchema),
 		resetForm: false,
 		onResult: ({ result }) => {
+			console.log(result)
 			switch (result.type) {
 				case 'success':
 					toast.success($t('common.success.save'));

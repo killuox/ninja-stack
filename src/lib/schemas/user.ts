@@ -18,7 +18,7 @@ export const updateUserSchema = z.object({
 	lastName: userSchema.shape.lastName,
 	email: userSchema.shape.email,
 	language: userSchema.shape.language,
-	passwordHash: z.string().min(6, 'Password must be at least 6 characters').max(64, 'Password must be 64 characters or less'),
+	passwordHash: z.string().min(6, 'Password must be at least 6 characters').max(64, 'Password must be 64 characters or less').optional(),
 });
 
 export type UpdateUserSchema = z.infer<typeof updateUserSchema>;

@@ -5,11 +5,12 @@ import { changePasswordSchema, updateUserSchema } from '@schemas/user';
 import { zod } from 'sveltekit-superforms/adapters';
 import userService from '@lib/server/models/user/user.service';
 import { verifyPassword, generatePasswordHash } from '@lib/server/helpers/auth';
+import { t } from '$lib/locales';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.session) {
 		error(401, {
-			message: 'UNAUTHORIZED'
+			message: t.get('error_code.UNAUTHORIZED')
 		});
 	}
 
@@ -17,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
 
 	if (!userToUpdate) {
 		error(404, {
-			message: 'USER_NOT_FOUND'
+			message: t.get('error_code.USER_NOT_FOUND')
 		});
 	}
 
@@ -42,7 +43,7 @@ export const actions: Actions = {
 		const session = event.locals.session;
 		if (!session) {
 			error(401, {
-				message: 'UNAUTHORIZED'
+				message: t.get('error_code.UNAUTHORIZED')
 			});
 		}
 
@@ -55,19 +56,18 @@ export const actions: Actions = {
 		const updateResult = await userService.update(session.userId, updateUserForm.data);
 
 		if (!updateResult) {
-			setError(updateUserForm, '', 'UPDATE_FAILED');
+			setError(updateUserForm, '', t.get('error_code.UPDATE_FAILED'));
 		}
 
-		return message(updateUserForm, 'UPDATE_SUCCESS');
+		return message(updateUserForm, t.get('error_code.UPDATE_SUCCESS'));
 	},
 	changePassword: async (event) => {
 		const session = event.locals.session;
 		if (!session) {
 			error(401, {
-				message: 'UNAUTHORIZED'
+				message: t.get('error_code.UNAUTHORIZED')
 			});
 		}
-
 		const changePasswordForm = await superValidate(event, zod(changePasswordSchema));
 
 		if (!changePasswordForm.valid) {
@@ -83,7 +83,7 @@ export const actions: Actions = {
 		);
 
 		if (!validPassword) {
-			setError(changePasswordForm, 'currentPassword', 'INVALID_PASSWORD');
+			setError(changePasswordForm, 'currentPassword', t.get('error_code.INVALID_PASSWORD'));
 		}
 
 		// Generate new password hash
@@ -94,9 +94,9 @@ export const actions: Actions = {
 		});
 
 		if (!updateResult) {
-			setError(changePasswordForm, '', 'UPDATE_FAILED');
+			setError(changePasswordForm, '', t.get('error_code.UPDATE_FAILED'));
 		}
 
-		return message(changePasswordForm, 'UPDATE_SUCCESS');
+		return message(changePasswordForm, t.get('error_code.UPDATE_SUCCESS'));
 	}
 };

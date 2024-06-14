@@ -6,7 +6,7 @@ import { loginUserSchema } from '@schemas/user';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { verifyPassword } from '@server/helpers/auth';
-
+import { t } from '$lib/locales';
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;
 	if (session) redirect(302, '/app');
@@ -31,15 +31,15 @@ export const actions: Actions = {
 
 		if (!existingUser) {
 			return fail(400, {
-				message: 'INVALID_EMAIL_OR_PASSWORD'
+				message: t.get('error_code.INVALID_EMAIL_OR_PASSWORD')
 			});
 		}
 
 		const validPassword = await verifyPassword(existingUser.passwordHash, form.data.password);
-	
+
 		if (!validPassword) {
 			return fail(400, {
-				message: 'INVALID_EMAIL_OR_PASSWORD'
+				message: t.get('error_code.INVALID_EMAIL_OR_PASSWORD')
 			});
 		}
 

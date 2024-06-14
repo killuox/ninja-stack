@@ -35,6 +35,11 @@ const config: Config = {
 			key: 'account',
 			loader: async () => (await import('./en/account.json')).default
 		},
+		{
+			locale: 'en',
+			key: 'error_code',
+			loader: async () => (await import('./en/error_code.json')).default
+		},
 		// ----- FRENCH -----
 		{
 			locale: 'fr',
@@ -60,7 +65,12 @@ const config: Config = {
 			locale: 'fr',
 			key: 'account',
 			loader: async () => (await import('./fr/account.json')).default
-		}
+		},
+		{
+			locale: 'fr',
+			key: 'error_code',
+			loader: async () => (await import('./fr/error_code.json')).default
+		},
 	]
 };
 

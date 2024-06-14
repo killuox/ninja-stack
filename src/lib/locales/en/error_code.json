@@ -1,0 +1,10 @@
+{
+   "UNAUTHORIZED" : "Unauthorized",
+    "FORBIDDEN" : "Forbidden",
+    "USER_NOT_FOUND" : "User not found",
+    "UPDATE_FAILED": "Update failed",   
+    "UPDATE_SUCCESS": "Update success",
+    "INVALID_PASSWORD": "Invalid password",
+    "PASSWORD_DO_NOT_MATCH": "Password do not match",
+    "INVALID_EMAIL_OR_PASSWORD": "Invalid email or password"
+}

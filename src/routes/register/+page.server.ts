@@ -7,6 +7,7 @@ import userService from '@models/user/user.service';
 import sessionService from '@models/session/session.service';
 import workspaceService from '@server/models/workspace/workspace.service';
 import { generatePasswordHash } from '@server/helpers/auth';
+import {t} from '$lib/locales';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;
@@ -31,7 +32,7 @@ export const actions: Actions = {
 		}
 
 		if (form.data.password !== form.data.passwordConfirm) {
-			return setError(form, 'passwordConfirm', 'PASSWORDS_DO_NOT_MATCH');
+			return setError(form, 'passwordConfirm', t.get('error_code.PASSWORDS_DO_NOT_MATCH'));
 		}
 
 		const passwordHash = await generatePasswordHash(form.data.password);
@@ -42,7 +43,7 @@ export const actions: Actions = {
 		// For security reasons, we don't want to tell the user if the email is already in use
 		if (existingUser) {
 			return fail(400, {
-				message: 'INVALID_EMAIL_OR_PASSWORD'
+				message: t.get('error_code.INVALID_EMAIL_OR_PASSWORD')
 			});
 		}
 

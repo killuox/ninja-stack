@@ -6,7 +6,6 @@ import {
 import { t } from '$lib/locales';
 import { toast } from 'svelte-sonner';
 
-// <T extends Record<string, unknown> = Record<string, unknown>, M = App.Superforms.Message extends never ? any : App.Superforms.Message, In extends Record<string, unknown> = T>(form: SuperValidated<T, M, In> | T, formOptions?: FormOptions<T, M, In>): SuperForm<T, M>;
 export const superForm = <
 	T extends Record<string, unknown> = Record<string, unknown>,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any

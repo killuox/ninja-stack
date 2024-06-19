@@ -1,15 +1,15 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 
-export const workspaceSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    userId: z.string(),
+export const workspaceSchema = v.object({
+	id: v.string(),
+	name: v.string(),
+	userId: v.string()
 });
 
-export type WorkspaceSchema = z.infer<typeof workspaceSchema>;
+export type WorkspaceSchema = v.InferOutput<typeof workspaceSchema>;
 
-export const createWorkspaceSchema = workspaceSchema.omit({ id: true });
-export type CreateWorkspaceSchema = z.infer<typeof createWorkspaceSchema>;
+export const createWorkspaceSchema = v.omit(workspaceSchema, ['id']);
+export type CreateWorkspaceSchema = v.InferOutput<typeof createWorkspaceSchema>;
 
-export const updateWorkspaceSchema = workspaceSchema.omit({ id: true }).partial();
-export type UpdateWorkspaceSchema = z.infer<typeof updateWorkspaceSchema>;
+export const updateWorkspaceSchema = v.partial(v.omit(workspaceSchema, ['id']));
+export type UpdateWorkspaceSchema = v.InferOutput<typeof updateWorkspaceSchema>;

@@ -14,6 +14,7 @@
 		resetForm: true
 	});
 	const { form: formData, enhance } = form;
+
 </script>
 
 <form method="POST" use:enhance action="?/changePassword">

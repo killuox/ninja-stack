@@ -1,65 +1,72 @@
-import { z } from 'zod';
-export const userSchema = z.object({
-	id: z.string(),
-	firstName: z.string(),
-	lastName: z.string(),
-	email: z.string(),
-	passwordHash: z.string(),
-	language: z.enum(['en', 'fr']).default('en'),
+import * as v from 'valibot';
+
+enum languages {
+	en = 'en',
+	fr = 'fr'
+}
+
+export const userSchema = v.object({
+	id: v.string(),
+	firstName: v.string(),
+	lastName: v.string(),
+	email: v.pipe(v.string(), v.email()),
+	passwordHash: v.string(),
+	language: v.enum(languages, 'en')
 });
-export type UserSchema = z.infer<typeof userSchema>;
+export type UserSchema = v.InferOutput<typeof userSchema>;
 export type SanitizedUser = Omit<UserSchema, 'passwordHash'>;
 
-export const createUserSchema = userSchema.omit({ id: true });
-export type CreateUserSchema = z.infer<typeof createUserSchema>;
+export const createUserSchema = v.omit(userSchema, ['id']);
+export type CreateUserSchema = v.InferOutput<typeof createUserSchema>;
 
-export const updateUserSchema = z.object({
-	firstName: userSchema.shape.firstName,
-	lastName: userSchema.shape.lastName,
-	email: userSchema.shape.email,
-	language: userSchema.shape.language,
-	passwordHash: z.string().min(6, 'Password must be at least 6 characters').max(64, 'Password must be 64 characters or less').optional(),
+export const updateUserSchema = v.object({
+	firstName: userSchema.entries.firstName,
+	lastName: userSchema.entries.lastName,
+	email: userSchema.entries.email,
+	language: userSchema.entries.language,
+	passwordHash: v.optional(v.pipe(v.string(), v.minLength(6), v.maxLength(64)))
 });
 
-export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
+export type UpdateUserSchema = v.InferOutput<typeof updateUserSchema>;
 
-export const registerUserSchema = z.object({
-	firstName: userSchema.shape.firstName,
-	lastName: userSchema.shape.lastName,
-	email: userSchema.shape.email,
-	password: z
-		.string()
-		.min(6, 'Password must be at least 6 characters')
-		.max(64, 'Password must be 64 characters or less'),
-	passwordConfirm: z
-		.string()
-		.min(6, 'Password must be at least 6 characters')
-		.max(64, 'Password must be 64 characters or less'),
-	language: userSchema.shape.language
+export const registerUserSchema = v.object({
+	firstName: userSchema.entries.firstName,
+	lastName: userSchema.entries.lastName,
+	email: userSchema.entries.email,
+	password: v.pipe(v.string(), v.minLength(6), v.maxLength(64)),
+	passwordConfirm: v.pipe(v.string(), v.minLength(6), v.maxLength(64)),
+	language: userSchema.entries.language
 });
 
-export type RegisterUserSchema = z.infer<typeof registerUserSchema>;
+export type RegisterUserSchema = v.InferOutput<typeof registerUserSchema>;
 
-export const loginUserSchema = z.object({
-	email: userSchema.shape.email,
-	password: z.string()
+export const loginUserSchema = v.object({
+	email: userSchema.entries.email,
+	password: v.string()
 });
 
-export type LoginUserSchema = z.infer<typeof loginUserSchema>;
+export type LoginUserSchema = v.InferOutput<typeof loginUserSchema>;
 
-export const forgotPasswordSchema = z.object({
-	email: z.string().email('Invalid email address')
+export const forgotPasswordSchema = v.object({
+	email: v.pipe(v.string(), v.email())
 });
 
-export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
+export type ForgotPasswordSchema = v.InferOutput<typeof forgotPasswordSchema>;
 
+export const changePasswordSchema = v.pipe(
+	v.object({
+		currentPassword: v.string(),
+		newPassword: v.pipe(v.string(), v.minLength(6), v.maxLength(64)),
+		newPasswordConfirm: v.pipe(v.string(), v.minLength(6), v.maxLength(64))
+	}),
+	v.forward(
+		v.partialCheck(
+			[['newPassword'], ['newPasswordConfirm']],
+			(input) => input.newPassword === input.newPasswordConfirm,
+			'password_mismatch'
+		),
+		['newPasswordConfirm']
+	)
+);
 
-export const changePasswordSchema = z.object({
-	currentPassword: z.string(),
-	newPassword: z.string().min(6, 'Password must be at least 6 characters'),
-	newPasswordConfirm: z.string().min(6, 'Password must be at least 6 characters')
-}).refine(data => data.newPassword === data.newPasswordConfirm, {
-	message: 'Passwords do not match',
-});
-
-export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
+export type ChangePasswordSchema = v.InferOutput<typeof changePasswordSchema>;

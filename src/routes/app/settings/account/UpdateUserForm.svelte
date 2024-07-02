@@ -3,7 +3,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
 	import { type SuperValidated } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { updateUserSchema, type UpdateUserSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
@@ -17,7 +17,7 @@
 	};
 
 	const form = superForm(updateUserForm, {
-		validators: zodClient(updateUserSchema),
+		validators: valibotClient(updateUserSchema),
 		resetForm: false,
 		onResult: () => {
 			console.log('woohoo')

@@ -4,7 +4,7 @@ import userService from '@models/user/user.service';
 import sessionService from '@models/session/session.service';
 import { loginUserSchema } from '@schemas/user';
 import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
+import { valibot } from 'sveltekit-superforms/adapters';
 import { verifyPassword } from '@server/helpers/auth';
 import { t } from '$lib/locales';
 export const load: PageServerLoad = async (event) => {
@@ -13,13 +13,13 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: event.locals.session,
-		form: await superValidate(zod(loginUserSchema))
+		form: await superValidate(valibot(loginUserSchema))
 	};
 };
 
 export const actions: Actions = {
 	default: async (event) => {
-		const form = await superValidate(event, zod(loginUserSchema));
+		const form = await superValidate(event, valibot(loginUserSchema));
 
 		if (!form.valid) {
 			return fail(400, {

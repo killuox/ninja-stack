@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '@schemas/user';
-import { zod } from "sveltekit-superforms/adapters";
+import { valibot } from "sveltekit-superforms/adapters";
 import userService from '@models/user/user.service';
 import sessionService from '@models/session/session.service';
 import workspaceService from '@server/models/workspace/workspace.service';
@@ -18,12 +18,12 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: event.locals.session,
-		form: await superValidate(zod(registerUserSchema))
+		form: await superValidate(valibot(registerUserSchema))
 	};
 };
 export const actions: Actions = {
 	default: async (event) => {
-		const form = await superValidate(event, zod(registerUserSchema));
+		const form = await superValidate(event, valibot(registerUserSchema));
 
 		if (!form.valid) {
 			return fail(400, {

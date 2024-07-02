@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { message, setError, superValidate } from 'sveltekit-superforms';
 import { error, fail } from '@sveltejs/kit';
 import { changePasswordSchema, updateUserSchema } from '@schemas/user';
-import { zod } from 'sveltekit-superforms/adapters';
+import { valibot } from 'sveltekit-superforms/adapters';
 import userService from '@lib/server/models/user/user.service';
 import { verifyPassword, generatePasswordHash } from '@lib/server/helpers/auth';
 import { t } from '$lib/locales';
@@ -29,13 +29,13 @@ export const load: PageServerLoad = async (event) => {
 			email: userToUpdate.email,
 			language: userToUpdate.language
 		},
-		zod(updateUserSchema)
+		valibot(updateUserSchema)
 	);
 
 	return {
 		session: event.locals.session,
 		updateUserForm,
-		changePasswordForm: await superValidate(zod(changePasswordSchema))
+		changePasswordForm: await superValidate(valibot(changePasswordSchema))
 	};
 };
 export const actions: Actions = {
@@ -47,7 +47,7 @@ export const actions: Actions = {
 			});
 		}
 
-		const updateUserForm = await superValidate(event, zod(updateUserSchema));
+		const updateUserForm = await superValidate(event, valibot(updateUserSchema));
 
 		if (!updateUserForm.valid) {
 			fail(400, { updateUserForm });
@@ -68,7 +68,7 @@ export const actions: Actions = {
 				message: t.get('error_code.UNAUTHORIZED')
 			});
 		}
-		const changePasswordForm = await superValidate(event, zod(changePasswordSchema));
+		const changePasswordForm = await superValidate(event, valibot(changePasswordSchema));
 
 		if (!changePasswordForm.valid) {
 			fail(400, { changePasswordForm });

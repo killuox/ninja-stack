@@ -4,7 +4,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
 	import AuthLayout from '@components/layout/AuthLayout.svelte';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { registerUserSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
 	import { superForm } from '@lib/utils/superform';
@@ -13,7 +13,7 @@
 	const { form: formProps } = data;
 
 	const form = superForm(formProps, {
-		validators: zodClient(registerUserSchema),
+		validators: valibotClient(registerUserSchema),
 		resetForm: true
 	});
 

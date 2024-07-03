@@ -6,14 +6,16 @@
 	import { changePasswordSchema, type ChangePasswordSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
 	import { adapter, superForm } from '@lib/utils/superform';
-	export let changePasswordForm: SuperValidated<ChangePasswordSchema>;
-
+	let {
+		changePasswordForm
+	}: {
+		changePasswordForm: SuperValidated<ChangePasswordSchema>;
+	} = $props();
 	const form = superForm(changePasswordForm, {
 		validators: adapter(changePasswordSchema),
 		resetForm: true
 	});
 	const { form: formData, enhance } = form;
-
 </script>
 
 <form method="POST" use:enhance action="?/changePassword">

@@ -1,20 +1,21 @@
 <script lang="ts">
-	import {
-		PanelLeft,
-		LineChart,
-	} from 'lucide-svelte';
+	import { PanelLeft, LineChart } from 'lucide-svelte';
 
 	import { Button } from '@components/ui/button/index.js';
 	import * as DropdownMenu from '@components/ui/dropdown-menu/index.js';
 	import * as Sheet from '@components/ui/sheet/index.js';
 	import Breadcrumb from '@components/layout/Breadcrumb.svelte';
 	import { appRoutes } from '@configs/routes.js';
-	import * as Avatar from "$lib/components/ui/avatar/index.js";
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import type { SanitizedUser } from '@lib/schemas/user';
 
-	export let user: SanitizedUser;
+	let {
+		user
+	}: {
+		user: SanitizedUser;
+	} = $props();
 
-	$: userInitials = user.firstName[0] + user.lastName[0];
+	const userInitials = $derived(user.firstName[0] + user.lastName[0]);
 </script>
 
 <header

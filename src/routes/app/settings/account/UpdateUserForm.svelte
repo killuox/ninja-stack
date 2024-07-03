@@ -7,8 +7,11 @@
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
 	import { adapter, superForm } from '@lib/utils/superform';
-
-	export let updateUserForm: SuperValidated<UpdateUserSchema>;
+	let {
+		updateUserForm
+	}: {
+		updateUserForm: SuperValidated<UpdateUserSchema>;
+	} = $props();
 	let languageHasChanged = false;
 	const languageOptions = {
 		en: $t('common.english'),
@@ -34,13 +37,15 @@
 		}
 	});
 	const { form: formData, enhance } = form;
-	$: selectedLanguage = $formData.language
-		? {
-				label: languageOptions[$formData.language],
-				value: $formData.language
-			}
-		: undefined;
-	
+
+	const selectedLanguage = $derived(
+		$formData.language
+			? {
+					label: languageOptions[$formData.language],
+					value: $formData.language
+				}
+			: undefined
+	);
 </script>
 
 <form method="POST" use:enhance action="?/updateUser">

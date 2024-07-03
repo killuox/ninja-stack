@@ -1,5 +1,7 @@
-<script>
-	export let data;
+<script lang="ts">
+	import type { Session } from 'lucia';
+
+	let { data } = $props();
 </script>
 
 <div class="flex items-center space-x-4">

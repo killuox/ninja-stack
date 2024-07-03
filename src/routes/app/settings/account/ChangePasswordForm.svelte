@@ -3,14 +3,13 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
 	import { type SuperValidated } from 'sveltekit-superforms';
-	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { changePasswordSchema, type ChangePasswordSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
-	import { superForm } from '@lib/utils/superform';
+	import { adapter, superForm } from '@lib/utils/superform';
 	export let changePasswordForm: SuperValidated<ChangePasswordSchema>;
 
 	const form = superForm(changePasswordForm, {
-		validators: valibotClient(changePasswordSchema),
+		validators: adapter(changePasswordSchema),
 		resetForm: true
 	});
 	const { form: formData, enhance } = form;

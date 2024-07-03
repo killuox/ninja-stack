@@ -45,6 +45,6 @@ export const actions: Actions = {
 
 		await sessionService.create(event, existingUser.id);
 
-		redirect(302, '/app');
+		return redirect(302, '/app');
 	}
 };

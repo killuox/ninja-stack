@@ -58,7 +58,6 @@ export const actions: Actions = {
 		if (!updateResult) {
 			setError(updateUserForm, '', t.get('error_code.UPDATE_FAILED'));
 		}
-
 		return message(updateUserForm, t.get('error_code.UPDATE_SUCCESS'));
 	},
 	changePassword: async (event) => {

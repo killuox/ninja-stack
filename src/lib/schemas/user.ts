@@ -1,17 +1,14 @@
 import * as v from 'valibot';
+const languages = ['en', 'fr'] as const;
 
-enum languages {
-	en = 'en',
-	fr = 'fr'
-}
 
 export const userSchema = v.object({
 	id: v.string(),
-	firstName: v.string(),
-	lastName: v.string(),
+	firstName: v.pipe(v.string(), v.minLength(2), v.maxLength(64)),
+	lastName: v.pipe(v.string(), v.minLength(2), v.maxLength(64)),
 	email: v.pipe(v.string(), v.email()),
-	passwordHash: v.string(),
-	language: v.enum(languages, 'en')
+	passwordHash: v.pipe(v.string(), v.minLength(6), v.maxLength(64)),
+	language: v.picklist(languages)
 });
 export type UserSchema = v.InferOutput<typeof userSchema>;
 export type SanitizedUser = Omit<UserSchema, 'passwordHash'>;

@@ -3,11 +3,10 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Form from '$lib/components/ui/form';
 	import { type SuperValidated } from 'sveltekit-superforms';
-	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { updateUserSchema, type UpdateUserSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
 	import * as Select from '$lib/components/ui/select';
-	import { superForm } from '@lib/utils/superform';
+	import { adapter, superForm } from '@lib/utils/superform';
 
 	export let updateUserForm: SuperValidated<UpdateUserSchema>;
 	let languageHasChanged = false;
@@ -17,10 +16,9 @@
 	};
 
 	const form = superForm(updateUserForm, {
-		validators: valibotClient(updateUserSchema),
+		validators: adapter(updateUserSchema),
 		resetForm: false,
 		onResult: () => {
-			console.log('woohoo')
 			if (languageHasChanged) {
 				location.reload();
 			}
@@ -42,6 +40,7 @@
 				value: $formData.language
 			}
 		: undefined;
+	
 </script>
 
 <form method="POST" use:enhance action="?/updateUser">

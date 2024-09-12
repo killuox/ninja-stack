@@ -1,9 +1,8 @@
 import { render } from 'svelty-email';
-import * as sendgrid from '@sendgrid/mail';
+import postmark from 'postmark';
 import { ENV } from '$lib/server/env';
 import type { ComponentProps, ComponentType, SvelteComponent } from 'svelte';
-
-sendgrid.setApiKey(ENV.SENDGRID_API_KEY);
+const client = new postmark.ServerClient(ENV.SENDGRID_API_KEY);
 
 export const sendEmail = async <T extends SvelteComponent>(options: {
 	from: string;
@@ -17,15 +16,10 @@ export const sendEmail = async <T extends SvelteComponent>(options: {
 		props: options.content
 	});
 
-	await sendgrid.send({
-		from: ENV.EMAIL_FROM,
-		to: options.to,
-		subject: options.subject,
-		html: emailHtml,
-		mailSettings: {
-			sandboxMode: {
-				enable: ENV.SENDGRID_SANDBOX_MODE
-			}
-		}
+	await client.sendEmail({
+		From: ENV.EMAIL_FROM,
+		To: options.to,
+		Subject: options.subject,
+		HtmlBody: emailHtml,
 	});
 };

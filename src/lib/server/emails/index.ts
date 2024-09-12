@@ -2,7 +2,7 @@ import { render } from 'svelty-email';
 import postmark from 'postmark';
 import { ENV } from '$lib/server/env';
 import type { ComponentProps, ComponentType, SvelteComponent } from 'svelte';
-const client = new postmark.ServerClient(ENV.SENDGRID_API_KEY);
+const client = new postmark.ServerClient(ENV.EMAIL_API_KEY);
 
 export const sendEmail = async <T extends SvelteComponent>(options: {
 	from: string;

@@ -2,16 +2,16 @@ import type { Actions, PageServerLoad } from './$types';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '@schemas/user';
-import { valibot } from "sveltekit-superforms/adapters";
+import { valibot } from 'sveltekit-superforms/adapters';
 import userService from '@models/user/user.service';
 import sessionService from '@models/session/session.service';
 import workspaceService from '@server/models/workspace/workspace.service';
 import { generatePasswordHash } from '@server/helpers/auth';
-import {t} from '$lib/locales';
+import { t } from '$lib/locales';
 
 export const load: PageServerLoad = async (event) => {
 	const session = event.locals.session;
-	
+
 	if (session !== null) {
 		redirect(302, '/app');
 	}
@@ -52,7 +52,7 @@ export const actions: Actions = {
 			lastName: form.data.lastName,
 			email: form.data.email,
 			passwordHash,
-			language: navigator.language.split('-')[0] === 'fr' ? 'fr' : 'en' // TODO: Make sure it works
+			language: event.cookies.get('lang') === 'fr' ? 'fr' : 'en'
 		});
 
 		await workspaceService.create({

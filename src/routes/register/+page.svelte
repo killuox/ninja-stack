@@ -7,6 +7,7 @@
 	import { registerUserSchema } from '@schemas/user';
 	import { t } from '$lib/locales';
 	import { adapter, superForm } from '@lib/utils/superform';
+
 	let { data } = $props();
 	const { form: formProps } = data;
 

@@ -23,7 +23,8 @@ export const superForm = <
 		...formOptions,
 		onResult: (e) => {
 			const { result } = e; 
-			const message = result?.data?.form.message || result?.data?.message
+			const message = result?.data?.form?.message || result?.data?.message
+
 			switch (result.type) {
 				case 'success':
 					toast.success(message || t.get('common.success.message'));

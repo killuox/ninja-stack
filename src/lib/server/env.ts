@@ -13,6 +13,7 @@ export const ENV = {
 	DRIZZLE_DATABASE_URL: getEnvironmentVariable('DRIZZLE_DATABASE_URL'),
 	EMAIL_API_KEY: getEnvironmentVariable('EMAIL_API_KEY'),
 	EMAIL_FROM: getEnvironmentVariable('EMAIL_FROM'),
+	CONVEX_URL: getEnvironmentVariable('CONVEX_URL')
 };
 
 // USAGE: import { ENV } from "$lib/server/env"; ENV.STRIPE_SECRET_KEY

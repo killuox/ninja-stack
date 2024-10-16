@@ -1,13 +1,18 @@
-import type { SanitizedUser } from '@lib/schemas/user';
-
 // src/app.d.ts
+
+import { SupabaseClient, Session } from '@supabase/supabase-js';
+
 declare global {
 	namespace App {
 		interface Locals {
-			user: SanitizedUser | null;
-			session: import('lucia').Session | null;
+			supabase: SupabaseClient;
+			safeGetSession(): Promise<{ session: Session | null; user: User | null }>;
 		}
+		interface PageData {
+			session: Session | null;
+			user: User | null;
+		}
+		// interface Error {}
+		// interface Platform {}
 	}
 }
-
-export {};

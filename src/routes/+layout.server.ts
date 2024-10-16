@@ -2,9 +2,10 @@ import type { LayoutServerLoad } from './$types';
 import { loadTranslations } from '$lib/locales';
 import { locale } from '$lib/locales';
 
-export const load: LayoutServerLoad = async (event) => {
+export const load: LayoutServerLoad = async ({ locals: { safeGetSession }, cookies, event }) => {
 	const { pathname } = event.url;
-	const userLocale = event.locals.user?.language;
+	const { session, user } = await safeGetSession();
+	const userLocale = user?.language;
 	// set locale
 	const localeCookie = event.cookies.get('lang') || 'en';
 	const localeToSet = userLocale || localeCookie;
@@ -14,7 +15,8 @@ export const load: LayoutServerLoad = async (event) => {
 	await loadTranslations(localeToSet, pathname); // keep this just before the `return`
 
 	return {
-		session: event.locals.session,
-		user: event.locals.user
+		session,
+		user,
+		cookies: cookies.getAll()
 	};
 };

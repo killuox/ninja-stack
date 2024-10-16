@@ -10,9 +10,11 @@ function getEnvironmentVariable(environmentVariable: string): string {
 }
 
 export const ENV = {
-	DRIZZLE_DATABASE_URL: getEnvironmentVariable('DRIZZLE_DATABASE_URL'),
 	EMAIL_API_KEY: getEnvironmentVariable('EMAIL_API_KEY'),
 	EMAIL_FROM: getEnvironmentVariable('EMAIL_FROM'),
+	SUPABASE_ANON_KEY: getEnvironmentVariable('SUPABASE_ANON_KEY'),
+	SUPABASE_PROJECT_URL: getEnvironmentVariable('SUPABASE_PROJECT_URL'),
+	SUPABASE_SERVICE_ROLE: getEnvironmentVariable('SUPABASE_SERVICE_ROLE'),
 };
 
 // USAGE: import { ENV } from "$lib/server/env"; ENV.STRIPE_SECRET_KEY

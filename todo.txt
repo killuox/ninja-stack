@@ -1,0 +1,6 @@
+Update auth with supabase(login, register,logout)
+Update database and add to models services
+revert to svelte 4?
+Forgot password
+404 pages
+File storage

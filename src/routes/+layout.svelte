@@ -3,7 +3,7 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import '../styles.css';
+	import '../app.pcss';
 
 	let { data, children } = $props();
 

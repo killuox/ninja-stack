@@ -15,6 +15,6 @@ export const ENV = {
 	SUPABASE_ANON_KEY: getEnvironmentVariable('SUPABASE_ANON_KEY'),
 	SUPABASE_PROJECT_URL: getEnvironmentVariable('SUPABASE_PROJECT_URL'),
 	SUPABASE_SERVICE_ROLE: getEnvironmentVariable('SUPABASE_SERVICE_ROLE'),
+	PUBLIC_SUPABASE_ANON_KEY: getEnvironmentVariable("PUBLIC_SUPABASE_ANON_KEY"),
+	PUBLIC_SUPABASE_URL: getEnvironmentVariable("PUBLIC_SUPABASE_URL"),
 };
-
-// USAGE: import { ENV } from "$lib/server/env"; ENV.STRIPE_SECRET_KEY

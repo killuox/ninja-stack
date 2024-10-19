@@ -7,9 +7,10 @@ import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
-	const user = event.data.user;
+	const data = event.data;
+	const user = data.user;
 	let defaultLocale = 'en';
-	depends('supabase:auth');
+	event.depends('supabase:auth');
 
 	const supabase = isBrowser()
 		? createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {

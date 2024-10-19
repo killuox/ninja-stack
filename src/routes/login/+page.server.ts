@@ -16,6 +16,9 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	default: async (event) => {
+		const {
+			locals: { supabase }
+		} = event;
 		const form = await superValidate(event, valibot(loginUserSchema));
 
 		if (!form.valid) {
@@ -23,7 +26,7 @@ export const actions: Actions = {
 				form
 			});
 		}
-		const { error } = await supabase.auth.signIn({
+		const { error } = await supabase.auth.signInWithPassword({
 			email: form.data.email,
 			password: form.data.password
 		});
@@ -31,7 +34,7 @@ export const actions: Actions = {
 		if (error) {
 			return fail(400, {
 				message: error.message
-			});	
+			});
 		}
 
 		return redirect(302, '/app');

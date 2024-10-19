@@ -47,7 +47,6 @@ export const load: LayoutLoad = async (event) => {
 
 		defaultLocale = browserLocale;
 	}
-
 	const initLocale = locale.get() || user?.language || defaultLocale;
 
 	await loadTranslations(initLocale, pathname);

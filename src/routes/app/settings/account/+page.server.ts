@@ -4,17 +4,17 @@ import { error, fail } from '@sveltejs/kit';
 import { changePasswordSchema, updateUserSchema } from '@schemas/user';
 import { valibot } from 'sveltekit-superforms/adapters';
 import userService from '@lib/server/models/user/user.service';
-import { verifyPassword, generatePasswordHash } from '@lib/server/helpers/auth';
 import { t } from '$lib/locales';
 
-export const load: PageServerLoad = async (event) => {
-	if (!event.locals.session) {
+export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
+	const { session } = await safeGetSession();
+	if (!session) {
 		error(401, {
 			message: t.get('error_code.UNAUTHORIZED')
 		});
 	}
 
-	const userToUpdate = await userService.findOne(event.locals.session.userId);
+	const userToUpdate = await userService.findOne(supabase, session.user.id);
 
 	if (!userToUpdate) {
 		error(404, {
@@ -33,14 +33,17 @@ export const load: PageServerLoad = async (event) => {
 	);
 
 	return {
-		session: event.locals.session,
+		session: session,
 		updateUserForm,
 		changePasswordForm: await superValidate(valibot(changePasswordSchema))
 	};
 };
 export const actions: Actions = {
 	updateUser: async (event) => {
-		const session = event.locals.session;
+		const {
+			locals: { supabase, safeGetSession }
+		} = event;
+		const { session } = await safeGetSession();
 		if (!session) {
 			error(401, {
 				message: t.get('error_code.UNAUTHORIZED')
@@ -53,7 +56,7 @@ export const actions: Actions = {
 			fail(400, { updateUserForm });
 		}
 
-		const updateResult = await userService.update(session.userId, updateUserForm.data);
+		const updateResult = await userService.update(supabase, session.user.id, updateUserForm.data);
 
 		if (!updateResult) {
 			setError(updateUserForm, '', t.get('error_code.UPDATE_FAILED'));
@@ -61,7 +64,10 @@ export const actions: Actions = {
 		return message(updateUserForm, t.get('error_code.UPDATE_SUCCESS'));
 	},
 	changePassword: async (event) => {
-		const session = event.locals.session;
+		const {
+			locals: { supabase, safeGetSession }
+		} = event;
+		const { session } = await safeGetSession();
 		if (!session) {
 			error(401, {
 				message: t.get('error_code.UNAUTHORIZED')
@@ -73,23 +79,8 @@ export const actions: Actions = {
 			fail(400, { changePasswordForm });
 		}
 
-		// Validate current password
-		const user = await userService.findOne(session.userId);
-
-		const validPassword = await verifyPassword(
-			user.passwordHash,
-			changePasswordForm.data.currentPassword
-		);
-
-		if (!validPassword) {
-			setError(changePasswordForm, 'currentPassword', t.get('error_code.INVALID_PASSWORD'));
-		}
-
-		// Generate new password hash
-		const newPasswordHash = await generatePasswordHash(changePasswordForm.data.newPassword);
-
-		const updateResult = await userService.update(session.userId, {
-			passwordHash: newPasswordHash
+		const updateResult = await userService.update(supabase, session.user.id, {
+			password: changePasswordForm.data.newPassword
 		});
 
 		if (!updateResult) {

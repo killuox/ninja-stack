@@ -1,56 +1,57 @@
-import { eq } from 'drizzle-orm';
-import db from '@server/db/db';
-import { userTable } from './user.table';
-import { type CreateUserSchema, type UpdateUserSchema } from '@schemas/user';
-import { generateDatabaseId } from '@server/helpers/db';
 import { error } from '@sveltejs/kit';
+import type { CreateUserSchema, UpdateUserSchema } from '@schemas/user';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-const findOne = async (id: string) => {
-	const result = await db.query.userTable.findFirst({
-		where: eq(userTable.id, id)
-	});
+const findOne = async (supabase: SupabaseClient, id: string) => {
+	const { data, error: err } = await supabase.from('users').select('*').eq('id', id).single();
 
-	if (!result) {
-		error(404, {
-			message: 'User not found'
-		});
+	if (err) {
+		error(404, { message: 'User not found' });
 	}
 
-	return result;
+	return data;
 };
 
-const findMany = async () => {
-	return await db.query.userTable.findMany();
+const findMany = async (supabase: SupabaseClient) => {
+	const { data } = await supabase.from('users').select('*');
+	return data;
 };
 
-const create = async (data: CreateUserSchema) => {
-	const userId = generateDatabaseId();
-	await db.insert(userTable).values({
-		id: userId,
-		...data,
-	});
-	
-	return userId;
+const create = async (supabase: SupabaseClient, data: CreateUserSchema) => {
+	const { data: newUser, error: err } = await supabase.from('users').insert(data).select().single();
+
+	if (err) {
+		error(500, { message: 'Failed to create user' });
+	}
+
+	return newUser.id;
 };
 
-const update = async (id: string, data: Partial<UpdateUserSchema>) => {
-	return await db
-		.update(userTable)
-		.set({
-			...data,
-			updatedAt: new Date()
-		})
-		.where(eq(userTable.id, id));
+const update = async (supabase: SupabaseClient, id: string, data: Partial<UpdateUserSchema>) => {
+	const { error: err, data: updatedUser } = await supabase
+		.from('users')
+		.update({ ...data, updated_at: new Date() })
+		.eq('id', id);
+
+	if (err) {
+		error(500, { message: 'Failed to update user' });
+	}
+
+	return updatedUser;
 };
 
-const remove = async (id: string) => {
-	return await db.delete(userTable).where(eq(userTable.id, id));
+const remove = async (supabase: SupabaseClient, id: string) => {
+	const { error: err } = await supabase.from('users').delete().eq('id', id);
+
+	if (err) {
+		error(500, { message: 'Failed to delete user' });
+	}
 };
 
-const findByEmail = async (email: string) => {
-	return await db.query.userTable.findFirst({
-		where: eq(userTable.email, email)
-	});
+const findByEmail = async (supabase: SupabaseClient, email: string) => {
+	const { data } = await supabase.from('users').select('*').eq('email', email).single();
+
+	return data;
 };
 
 export default {

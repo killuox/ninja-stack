@@ -7,7 +7,7 @@ export const userSchema = v.object({
 	firstName: v.pipe(v.string(), v.minLength(2), v.maxLength(64)),
 	lastName: v.pipe(v.string(), v.minLength(2), v.maxLength(64)),
 	email: v.pipe(v.string(), v.email()),
-	passwordHash: v.pipe(v.string(), v.minLength(6), v.maxLength(64)),
+	password: v.pipe(v.string(), v.minLength(6), v.maxLength(64)),
 	language: v.picklist(languages)
 });
 export type UserSchema = v.InferOutput<typeof userSchema>;
@@ -21,7 +21,7 @@ export const updateUserSchema = v.object({
 	lastName: userSchema.entries.lastName,
 	email: userSchema.entries.email,
 	language: userSchema.entries.language,
-	passwordHash: v.optional(v.pipe(v.string(), v.minLength(6), v.maxLength(64)))
+	password: v.optional(v.pipe(v.string(), v.minLength(6), v.maxLength(64)))
 });
 
 export type UpdateUserSchema = v.InferOutput<typeof updateUserSchema>;

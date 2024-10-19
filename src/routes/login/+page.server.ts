@@ -4,12 +4,12 @@ import { loginUserSchema } from '@schemas/user';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 
-export const load: PageServerLoad = async (event) => {
-	const session = event.locals.session;
+export const load: PageServerLoad = async ({ locals: { safeGetSession } }) => {
+	const { session } = await safeGetSession();
 	if (session) redirect(302, '/app');
 
 	return {
-		session: event.locals.session,
+		session,
 		form: await superValidate(valibot(loginUserSchema))
 	};
 };

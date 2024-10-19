@@ -4,25 +4,26 @@ import { fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '@schemas/user';
 import { valibot } from 'sveltekit-superforms/adapters';
 import userService from '@models/user/user.service';
-import sessionService from '@models/session/session.service';
 import workspaceService from '@server/models/workspace/workspace.service';
-import { generatePasswordHash } from '@server/helpers/auth';
 import { t } from '$lib/locales';
 
-export const load: PageServerLoad = async (event) => {
-	const session = event.locals.session;
+export const load: PageServerLoad = async ({ locals: { safeGetSession } }) => {
+	const { session } = await safeGetSession();
 
 	if (session !== null) {
 		redirect(302, '/app');
 	}
 
 	return {
-		session: event.locals.session,
+		session,
 		form: await superValidate(valibot(registerUserSchema))
 	};
 };
 export const actions: Actions = {
 	default: async (event) => {
+		const {
+			locals: { supabase }
+		} = event;
 		const form = await superValidate(event, valibot(registerUserSchema));
 
 		if (!form.valid) {
@@ -35,10 +36,8 @@ export const actions: Actions = {
 			return setError(form, 'passwordConfirm', t.get('error_code.PASSWORDS_DO_NOT_MATCH'));
 		}
 
-		const passwordHash = await generatePasswordHash(form.data.password);
-
 		// check if email is already used
-		const existingUser = await userService.findByEmail(form.data.email);
+		const existingUser = await userService.findByEmail(supabase, form.data.email);
 
 		// For security reasons, we don't want to tell the user if the email is already in use
 		if (existingUser) {
@@ -47,20 +46,36 @@ export const actions: Actions = {
 			});
 		}
 
-		const createdUserId = await userService.create({
-			firstName: form.data.firstName,
-			lastName: form.data.lastName,
+		const { data, error } = await supabase.auth.signUp({
 			email: form.data.email,
-			passwordHash,
-			language: event.cookies.get('lang') === 'fr' ? 'fr' : 'en'
+			password: form.data.password,
+			options: {
+				data: {
+					firstName: form.data.firstName,
+					lastName: form.data.lastName,
+					language: event.cookies.get('lang') === 'fr' ? 'fr' : 'en'
+				}
+			}
 		});
+		console.log(error)
+		if (!data.user) {
+			return fail(400, {
+				form,
+				message: t.get('error_code.USER_SIGNUP_FAILED')
+			});
+		}
 
-		await workspaceService.create({
-			userId: createdUserId,
+		await workspaceService.create(supabase, {
+			userId: data.user.id,
 			name: `${form.data.firstName} ${form.data.lastName}'s Workspace`
 		});
 
-		await sessionService.create(event, createdUserId);
+		if (error) {
+			return fail(400, {
+				form,
+				message: error.message
+			});
+		}
 
 		redirect(302, '/app');
 	}

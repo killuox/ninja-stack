@@ -3,7 +3,7 @@ import type { CreateUserSchema, UpdateUserSchema } from '@schemas/user';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const findOne = async (supabase: SupabaseClient, id: string) => {
-	const { data, error: err } = await supabase.from('users').select('*').eq('id', id).single();
+	const { data, error: err } = await supabase.from('profiles').select('*').eq('id', id).single();
 
 	if (err) {
 		error(404, { message: 'User not found' });
@@ -13,12 +13,12 @@ const findOne = async (supabase: SupabaseClient, id: string) => {
 };
 
 const findMany = async (supabase: SupabaseClient) => {
-	const { data } = await supabase.from('users').select('*');
+	const { data } = await supabase.from('profiles').select('*');
 	return data;
 };
 
 const create = async (supabase: SupabaseClient, data: CreateUserSchema) => {
-	const { data: newUser, error: err } = await supabase.from('users').insert(data).select().single();
+	const { data: newUser, error: err } = await supabase.from('profiles').insert(data).select().single();
 
 	if (err) {
 		error(500, { message: 'Failed to create user' });
@@ -29,7 +29,7 @@ const create = async (supabase: SupabaseClient, data: CreateUserSchema) => {
 
 const update = async (supabase: SupabaseClient, id: string, data: Partial<UpdateUserSchema>) => {
 	const { error: err, data: updatedUser } = await supabase
-		.from('users')
+		.from('profiles')
 		.update({ ...data, updated_at: new Date() })
 		.eq('id', id);
 
@@ -41,7 +41,7 @@ const update = async (supabase: SupabaseClient, id: string, data: Partial<Update
 };
 
 const remove = async (supabase: SupabaseClient, id: string) => {
-	const { error: err } = await supabase.from('users').delete().eq('id', id);
+	const { error: err } = await supabase.from('profiles').delete().eq('id', id);
 
 	if (err) {
 		error(500, { message: 'Failed to delete user' });
@@ -49,7 +49,7 @@ const remove = async (supabase: SupabaseClient, id: string) => {
 };
 
 const findByEmail = async (supabase: SupabaseClient, email: string) => {
-	const { data } = await supabase.from('users').select('*').eq('email', email).single();
+	const { data } = await supabase.from('profiles').select('*').eq('email', email).single();
 
 	return data;
 };

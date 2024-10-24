@@ -3,7 +3,7 @@ import * as v from 'valibot';
 export const workspaceSchema = v.object({
 	id: v.string(),
 	name: v.string(),
-	userId: v.string()
+	user_id: v.string()
 });
 
 export type WorkspaceSchema = v.InferOutput<typeof workspaceSchema>;

@@ -51,13 +51,13 @@ export const actions: Actions = {
 			password: form.data.password,
 			options: {
 				data: {
-					firstName: form.data.firstName,
-					lastName: form.data.lastName,
+					first_name: form.data.firstName,
+					last_name: form.data.lastName,
 					language: event.cookies.get('lang') === 'fr' ? 'fr' : 'en'
 				}
 			}
 		});
-		console.log(error)
+
 		if (!data.user) {
 			return fail(400, {
 				form,
@@ -66,7 +66,7 @@ export const actions: Actions = {
 		}
 
 		await workspaceService.create(supabase, {
-			userId: data.user.id,
+			user_id: data.user.id,
 			name: `${form.data.firstName} ${form.data.lastName}'s Workspace`
 		});
 

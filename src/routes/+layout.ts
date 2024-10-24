@@ -34,15 +34,15 @@ export const load: LayoutLoad = async (event) => {
 	 * safely checked the session using `safeGetSession`.
 	 */
 	// get browser locale
+	const userLanguage = user?.user_metadata.language;
 	if (browser) {
 		const browserLocale = navigator.language.split('-')[0];
-
 		// set cookie
-		document.cookie = `lang=${browserLocale}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+		document.cookie = `lang=${userLanguage || browserLocale}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 
 		defaultLocale = browserLocale;
 	}
-	const initLocale = locale.get() || user?.language || defaultLocale;
+	const initLocale = userLanguage || locale.get() || defaultLocale;
 
 	await loadTranslations(initLocale, pathname);
 

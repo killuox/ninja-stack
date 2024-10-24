@@ -26,7 +26,6 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
 		{
 			first_name: userToUpdate.first_name,
 			last_name: userToUpdate.last_name,
-			email: userToUpdate.email,
 			language: userToUpdate.language
 		},
 		valibot(updateUserSchema)
@@ -61,6 +60,11 @@ export const actions: Actions = {
 		if (!updateResult) {
 			setError(updateUserForm, '', t.get('error_code.UPDATE_FAILED'));
 		}
+
+		await supabase.auth.updateUser({
+			data: updateUserForm.data
+		});
+
 		return message(updateUserForm, t.get('error_code.UPDATE_SUCCESS'));
 	},
 	changePassword: async (event) => {

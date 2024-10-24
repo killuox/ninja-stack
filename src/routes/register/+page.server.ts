@@ -57,7 +57,7 @@ export const actions: Actions = {
 				}
 			}
 		});
-
+		console.log(data, error);
 		if (!data.user) {
 			return fail(400, {
 				form,
@@ -76,7 +76,7 @@ export const actions: Actions = {
 				message: error.message
 			});
 		}
-
+		console.log('success! redirecting to /app');
 		redirect(302, '/app');
 	}
 };

@@ -12,7 +12,7 @@
 	}: {
 		updateUserForm: SuperValidated<UpdateUserSchema>;
 	} = $props();
-	let languageHasChanged = false;
+	let languageHasChanged = $state(false);
 	const languageOptions = {
 		en: $t('common.english'),
 		fr: $t('common.french')

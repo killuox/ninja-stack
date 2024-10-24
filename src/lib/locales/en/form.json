@@ -11,19 +11,19 @@
     "last_name": {
         "label": "Last Name"
     },
-    "passwordConfirm": {
+    "password_confirm": {
         "label": "Confirm Password"
     },
     "language": {
         "label": "Language"
     },
-    "currentPassword": {
+    "current_password": {
         "label": "Current Password"
     },
-    "newPassword": {
+    "new_password": {
         "label": "New Password"
     },
-    "newPasswordConfirm": {
+    "new_password_confirm": {
         "label": "Confirm New Password"
     }
 }

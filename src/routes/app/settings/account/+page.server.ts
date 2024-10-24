@@ -24,8 +24,8 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
 
 	const updateUserForm = await superValidate(
 		{
-			firstName: userToUpdate.firstName,
-			lastName: userToUpdate.lastName,
+			first_name: userToUpdate.first_name,
+			last_name: userToUpdate.last_name,
 			email: userToUpdate.email,
 			language: userToUpdate.language
 		},
@@ -80,7 +80,7 @@ export const actions: Actions = {
 		}
 
 		const updateResult = await userService.update(supabase, session.user.id, {
-			password: changePasswordForm.data.newPassword
+			password: changePasswordForm.data.new_password
 		});
 
 		if (!updateResult) {

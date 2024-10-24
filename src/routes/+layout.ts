@@ -3,7 +3,6 @@ import { browser } from '$app/environment';
 import { loadTranslations, locale } from '$lib/locales';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
-import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
@@ -34,10 +33,6 @@ export const load: LayoutLoad = async (event) => {
 	 * safe, and on the server, it reads `session` from the `LayoutData`, which
 	 * safely checked the session using `safeGetSession`.
 	 */
-	const {
-		data: { session }
-	} = await supabase.auth.getSession();
-
 	// get browser locale
 	if (browser) {
 		const browserLocale = navigator.language.split('-')[0];
@@ -51,5 +46,5 @@ export const load: LayoutLoad = async (event) => {
 
 	await loadTranslations(initLocale, pathname);
 
-	return { supabase, session, lang: initLocale };
+	return { supabase, session: data.session, lang: initLocale, user: data.user };
 };

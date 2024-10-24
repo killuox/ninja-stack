@@ -32,8 +32,8 @@ export const actions: Actions = {
 			});
 		}
 
-		if (form.data.password !== form.data.passwordConfirm) {
-			return setError(form, 'passwordConfirm', t.get('error_code.PASSWORDS_DO_NOT_MATCH'));
+		if (form.data.password !== form.data.password_confirm) {
+			return setError(form, 'password_confirm', t.get('error_code.PASSWORDS_DO_NOT_MATCH'));
 		}
 
 		// check if email is already used
@@ -51,8 +51,8 @@ export const actions: Actions = {
 			password: form.data.password,
 			options: {
 				data: {
-					first_name: form.data.firstName,
-					last_name: form.data.lastName,
+					first_name: form.data.first_name,
+					last_name: form.data.last_name,
 					language: event.cookies.get('lang') === 'fr' ? 'fr' : 'en'
 				}
 			}
@@ -67,7 +67,7 @@ export const actions: Actions = {
 
 		await workspaceService.create(supabase, {
 			user_id: data.user.id,
-			name: `${form.data.firstName} ${form.data.lastName}'s Workspace`
+			name: `${form.data.first_name} ${form.data.last_name}'s Workspace`
 		});
 
 		if (error) {

@@ -5,25 +5,25 @@
     "password": {
         "label": "Mot de passe"
     },
-    "firstName": {
+    "first_name": {
         "label": "Prénom"
     },
-    "lastName": {
+    "last_name": {
         "label": "Nom de famille"
     },
-    "passwordConfirm": {
+    "password_confirm": {
         "label": "Confirmer le mot de passe"
     },
     "language": {
         "label": "Langue"
     },
-    "currentPassword": {
+    "current_password": {
         "label": "Mot de passe actuel"
     },
-    "newPassword": {
+    "new_password": {
         "label": "Nouveau mot de passe"
     },
-    "newPasswordConfirm": {
+    "new_password_confirm": {
         "label": "Confirmer le nouveau mot de passe"
     }
 }

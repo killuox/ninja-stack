@@ -51,17 +51,17 @@
 <form method="POST" use:enhance action="?/updateUser">
 	<div class="grid gap-4">
 		<div class="grid gap-4 md:grid-cols-2">
-			<Form.Field {form} name="firstName">
+			<Form.Field {form} name="first_name">
 				<Form.Control let:attrs>
-					<Form.Label>{$t('form.firstName.label')}</Form.Label>
-					<Input {...attrs} type="text" bind:value={$formData.firstName} />
+					<Form.Label>{$t('form.first_name.label')}</Form.Label>
+					<Input {...attrs} type="text" bind:value={$formData.first_name} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
-			<Form.Field {form} name="lastName">
+			<Form.Field {form} name="last_name">
 				<Form.Control let:attrs>
-					<Form.Label>{$t('form.lastName.label')}</Form.Label>
-					<Input {...attrs} type="text" bind:value={$formData.lastName} />
+					<Form.Label>{$t('form.last_name.label')}</Form.Label>
+					<Input {...attrs} type="text" bind:value={$formData.last_name} />
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>

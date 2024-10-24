@@ -14,8 +14,8 @@
 	}: {
 		user: SanitizedUser;
 	} = $props();
-
-	const userInitials = $derived(user.firstName[0] + user.lastName[0]);
+	console.log(user);
+	const userInitials = $derived(user.first_name[0] + user.last_name[0]);
 </script>
 
 <header

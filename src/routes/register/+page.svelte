@@ -29,17 +29,17 @@
 			<form method="POST" use:enhance>
 				<div class="grid gap-4">
 					<div class="grid grid-cols-2 gap-4">
-						<Form.Field {form} name="firstName">
+						<Form.Field {form} name="first_name">
 							<Form.Control let:attrs>
-								<Form.Label>{$t('form.firstName.label')}</Form.Label>
-								<Input type="text" bind:value={$formData.firstName} {...attrs} />
+								<Form.Label>{$t('form.first_name.label')}</Form.Label>
+								<Input type="text" bind:value={$formData.first_name} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
-						<Form.Field {form} name="lastName">
+						<Form.Field {form} name="last_name">
 							<Form.Control let:attrs>
-								<Form.Label>{$t('form.lastName.label')}</Form.Label>
-								<Input type="text" bind:value={$formData.lastName} {...attrs} />
+								<Form.Label>{$t('form.last_name.label')}</Form.Label>
+								<Input type="text" bind:value={$formData.last_name} {...attrs} />
 							</Form.Control>
 							<Form.FieldErrors />
 						</Form.Field>
@@ -58,10 +58,10 @@
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>
-					<Form.Field {form} name="passwordConfirm">
+					<Form.Field {form} name="password_confirm">
 						<Form.Control let:attrs>
-							<Form.Label>{$t('form.passwordConfirm.label')}</Form.Label>
-							<Input type="password" bind:value={$formData.passwordConfirm} {...attrs} />
+							<Form.Label>{$t('form.password_confirm.label')}</Form.Label>
+							<Input type="password" bind:value={$formData.password_confirm} {...attrs} />
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>

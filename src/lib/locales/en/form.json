@@ -5,10 +5,10 @@
     "password": {
         "label": "Password"
     },
-    "firstName": {
+    "first_name": {
         "label": "First Name"
     },
-    "lastName": {
+    "last_name": {
         "label": "Last Name"
     },
     "passwordConfirm": {
